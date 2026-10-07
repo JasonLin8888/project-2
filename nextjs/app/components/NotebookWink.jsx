@@ -108,7 +108,8 @@ export default function NotebookWink() {
 
   return <>
     <aside className="notebook-wink" aria-label="Your notebook">
-      <p>No, not that one. <span>Fewer rowboats, more Markdown.</span></p>
+      <p>Get started on your first big project by researching, learning, writing, and prototyping with AI assistance. Put all of your references, sources, tutorials, and more in The Notebook. <span>No, not that one.</span></p>
+      <p><span>Fewer rowboats, more Markdown.</span></p>
       <div>
         <Link href="/notebook">Open your Notebook →</Link>
         <button ref={trigger} type="button" className="gosling-trigger" aria-expanded={playing} title="A cinematic detour" onClick={togglePlaying}>gosling</button>
