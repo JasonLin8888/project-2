@@ -18,7 +18,11 @@ export const site = {
 // - notebook/ is the student's own work. Dictated and photographed notes are written here.
 // The home page shows the two as steps (`step:` in each folder's README), and docs/README.md can set `print_set:`.
 const repoRoot = path.join(process.cwd(), "..");
-export const sources = ["docs", "notebook"].map((mount) => ({ mount, root: path.join(repoRoot, mount) }));
+// Keep these paths literal so the deployment traces only the published folders.
+export const sources = [
+  { mount: "docs", root: path.join(repoRoot, "docs") },
+  { mount: "notebook", root: path.join(repoRoot, "notebook") },
+];
 export const notebookRoot = path.join(repoRoot, "notebook");
 
 function sourceFor(slug) {

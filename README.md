@@ -72,3 +72,11 @@ The homepage links to Notebook with a small cinematic joke. Its discreet `goslin
 The background now uses the unletterboxed video `jefNSYYFm5w`, with Sun mode (0:33–2:12 / 33–132 seconds) and Rain mode (2:29–4:09 / 149–249 seconds). The mode toggle and Sound on/off sit beside `gosling`. Switching modes jumps to the selected section, and the IFrame Player API reloads that same bounded section at the end; native YouTube playlist looping restarts at 0:00. The cinema-wide footage is still contained inside YouTube’s 16:9 player, so cover sizing crops the player’s empty bands and follows the viewport container for portrait, landscape, and ultrawide screens.
 
 For the brightness preview, the background’s dark green-black overlay was changed from 63% opacity to 0% on 2026-10-07.
+
+## GitHub-backed Vercel deployment
+
+Target: `https://tdm155ai-week-5.vercel.app`. Connect the private `tdm155ai/tdm155ai-week-5` GitHub repository to the Process Black Vercel account, with `main` as the production branch. Project root directory: `nextjs`; framework: Next.js; package manager: pnpm. Include files outside the root directory so the build and reader can access `docs/` and `notebook/`. Both folders are included in Next’s file tracing.
+
+Pushes to `main` should trigger production builds. Do not upload local `.env` files or copy API keys into project settings: the app can ask users for their own OpenRouter key.
+
+The hosted reader, print pages, and background video work from repository content. The capture tools currently save recordings, photographs, and Markdown to the local filesystem, so run those on the laptop; Vercel needs a persistent-storage change before online captures can be kept in the notebook.
