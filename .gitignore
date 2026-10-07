@@ -2,7 +2,7 @@
 .DS_Store
 ._*
 
-# --- local-only folders: what the room makes today lands in _media/ (served at /live); scratch and raw intake ---
+# --- local-only folders: recordings land in _media/dictation/; scratch and raw intake ---
 _media/*
 !_media/.gitkeep
 _raw/

@@ -1,0 +1,30 @@
+import Link from "next/link";
+import { site } from "../../lib/content.mjs";
+
+// `current` marks the tool page you're on: "dictate", or nothing.
+export function SiteHeader({ current = "" }) {
+  return (
+    <header className="site-header">
+      <Link className="wordmark" href="/">
+        {site.title} <span>{site.label}</span>
+      </Link>
+      <nav aria-label="Main navigation">
+        <Link href="/#docs">Docs</Link>
+        <Link href="/context">Context</Link>
+        <Link href="/dictate" aria-current={current === "dictate" ? "page" : undefined}>Dictate</Link>
+        <Link href="/context/dictation">Dictation</Link>
+        <Link href="/print">Print</Link>
+      </nav>
+    </header>
+  );
+}
+
+export function SiteFooter() {
+  return (
+    <footer className="site-footer">
+      <Link href="/">{site.title}</Link>
+      <Link href="/print">Printables</Link>
+      <span>{site.term}</span>
+    </footer>
+  );
+}
