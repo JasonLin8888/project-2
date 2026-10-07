@@ -42,7 +42,7 @@ Then open the localhost address it prints. Recording needs Chrome or Safari on t
 
 Copy `nextjs/.env.example` to `nextjs/.env.local` and set `OPENROUTER_API_KEY` (`FAL_API_KEY` and `HUIT_API_KEY` are there too, unused by the app so far). The root `.env.example` (copy to `.env`) has the same three keys for scripts run from the repo root. Without it, `/dictate` and `/transcribe` ask for the user's own OpenRouter key, keep it in that browser (localStorage), and send it with each request in an `X-OpenRouter-Key` header; the server uses it for that request only and never writes it to disk. With no key at all, recordings and photographs are saved but not transcribed. The models default to `google/gemini-3.8-flash` (transcription; it has to accept audio) and `anthropic/claude-sonnet-5.5` (cleanup). Restart `pnpm dev` after editing it.
 
-The app reads and writes the local disk, so it is built to run on a laptop. On a deploy (root directory `nextjs`) the `docs/` pages and `/print` would work, but dictation and transcription can't be saved.
+The app reads and writes the local disk, so it is built to run on a laptop. On Vercel (root directory `nextjs`) the `docs/` pages and `/print` work, but dictation and transcription can't be saved.
 
 ## How a recording becomes a note
 
@@ -77,8 +77,8 @@ For the brightness preview, the background’s dark green-black overlay was chan
 
 ## GitHub-backed Vercel deployment
 
-Target: `https://tdm155ai-week-5.vercel.app`. Connect the private `tdm155ai/tdm155ai-week-5` GitHub repository to the Process Black Vercel account, with `main` as the production branch. Project root directory: `nextjs`; framework: Next.js; package manager: pnpm. Include files outside the root directory so the build and reader can access `docs/` and `notebook/`. Both folders are included in Next’s file tracing.
+Live since 2026-10-07: [tdm155ai-week-5.vercel.app](https://tdm155ai-week-5.vercel.app). The private `tdm155ai/tdm155ai-week-5` GitHub repository is connected to `process-blacks-projects` on Vercel, with `main` as the production branch. Project root directory: `nextjs`; framework: Next.js; package manager: pnpm. Include files outside the root directory so the build and reader can access `docs/` and `notebook/`. Both folders are included in Next’s file tracing.
 
-Pushes to `main` should trigger production builds. Do not upload local `.env` files or copy API keys into project settings: the app can ask users for their own OpenRouter key.
+Pushes to `main` trigger production builds. For this private repository, commits must use a GitHub identity with access to the Vercel team. The repo uses the same identity as week 4: `Process Black <193248099+process-black@users.noreply.github.com>`; commits authored as `mkuzmick` were blocked by Vercel. Do not upload local `.env` files or copy API keys into project settings: the app can ask users for their own OpenRouter key.
 
 The hosted reader, print pages, and background video work from repository content. The capture tools currently save recordings, photographs, and Markdown to the local filesystem, so run those on the laptop; Vercel needs a persistent-storage change before online captures can be kept in the notebook.
