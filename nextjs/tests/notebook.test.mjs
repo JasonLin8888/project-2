@@ -40,7 +40,7 @@ test("voice and photographs persist to the same notebook, including failure reco
       return Response.json({ choices: [{ finish_reason: "stop", message: { content: "TITLE: Test photographed note\nDESCRIPTION: A handwritten list.\n---\n## Page 1\n- Keep [illegible]\n\n## Page 2\nSecond page" } }] });
     };
     const saved = await (await photoRoute.POST(photos([png, png]))).json();
-    assert.match(saved.href, /^\/context\/notebook\//);
+    assert.match(saved.href, /^\/notebook\//);
     assert.equal(sent.messages[0].content.filter((part) => part.type === "image_url").length, 2);
     const markdown = await readFile(path.join(sandbox, saved.file), "utf8");
     assert.match(markdown, /source: photograph/);
@@ -54,13 +54,13 @@ test("voice and photographs persist to the same notebook, including failure reco
     assert.equal((await mediaRoute.GET(null, { params: Promise.resolve({ filename: `${saved.id}.json` }) })).status, 404);
     assert.equal((await mediaRoute.GET(null, { params: Promise.resolve({ filename: "../secret.png" }) })).status, 404);
 
-    const notebookFiles = await readdir(path.join(sandbox, "_context/notebook"));
+    const notebookFiles = await readdir(path.join(sandbox, "notebook"));
     globalThis.fetch = async () => Response.json({ error: { message: "Model unavailable" } }, { status: 503 });
     const failedResponse = await photoRoute.POST(photos());
     assert.equal(failedResponse.status, 502);
     const failed = await failedResponse.json();
     assert.match(failed.error, /Photographs saved/);
-    assert.deepEqual(await readdir(path.join(sandbox, "_context/notebook")), notebookFiles);
+    assert.deepEqual(await readdir(path.join(sandbox, "notebook")), notebookFiles);
     const record = JSON.parse(await readFile(path.join(sandbox, "_media/notebook", `${failed.id}.json`), "utf8"));
     assert.match(record.error, /Model unavailable/);
     assert.ok(record.images.length);
@@ -77,9 +77,9 @@ test("voice and photographs persist to the same notebook, including failure reco
     const form = new FormData();
     form.append("audio", new Blob([wav], { type: "audio/wav" }), "note.wav");
     const spoken = await (await audioRoute.POST(new Request("http://localhost/api/dictate", { method: "POST", body: form }))).json();
-    assert.match(spoken.href, /^\/context\/notebook\//);
+    assert.match(spoken.href, /^\/notebook\//);
     assert.match(await readFile(path.join(sandbox, spoken.file), "utf8"), /source: dictation/);
-    assert.equal((await getEntry(["context", "notebook"])).entry.docs.length, 2);
+    assert.equal((await getEntry(["notebook"])).entry.docs.length, 2);
   } finally {
     globalThis.fetch = originalFetch;
     if (originalKey === undefined) delete process.env.OPENROUTER_API_KEY;

@@ -4,42 +4,44 @@ import matter from "gray-matter";
 
 export const site = {
   title: "TDM 155AI week 5",
-  label: "Research",
+  label: "The Notebook",
   term: "TDM 155AI · Making Stuff in the Age of AI · Fall 2026",
+  // The home page's heading and the line under it.
+  heading: "The Notebook",
+  deck: "Research, notetaking, writing & creating in the age of AI",
 };
 
-// Two folders of Markdown, each file a page and each folder a page too, showing its README.md (if any) above a list
-// of what it holds. Names starting with "_" or "." are skipped.
-// - content/ at the repo root (beside nextjs/) is the site itself: content/a/b.md is /a/b, and content/README.md is the home page's intro.
-// - This repo's working context, _context/ at the repo root (beside nextjs/), is mounted at /context: _context/a/b.md is
-//   /context/a/b. Dictated notes are written to _context/notebook/. Where the folder isn't there, /context is left out.
-export const contentRoot = path.join(process.cwd(), "..", "content");
-export const contextRoot = path.join(process.cwd(), "..", "_context");
-export const contextMount = "context";
-
-const sources = [
-  { mount: "", root: contentRoot, label: "content" },
-  { mount: contextMount, root: contextRoot, label: "_context" },
-];
+// Two folders of Markdown at the repo root (beside nextjs/), each at its own address: docs/a/b.md is /docs/a/b. Every
+// file is a page, and every folder is a page too, showing its README.md (if any) above a list of what it holds. Names
+// starting with "_" or "." are skipped.
+// - docs/ is what we prepared: ai-research/ (written with AI, labeled as such on every page), readings/, course-docs/.
+// - notebook/ is the student's own work. Dictated and photographed notes are written here.
+// The home page shows the two as steps (`step:` in each folder's README), and docs/README.md can set `print_set:`.
+const repoRoot = path.join(process.cwd(), "..");
+export const sources = ["docs", "notebook"].map((mount) => ({ mount, root: path.join(repoRoot, mount) }));
+export const notebookRoot = path.join(repoRoot, "notebook");
 
 function sourceFor(slug) {
   const first = slug.split("/")[0];
-  return sources.find((source) => source.mount && source.mount === first) || sources[0];
+  return sources.find((source) => source.mount === first);
 }
 
-// Where an entry lives on disk, as shown on its page: content/a/b.md, _context/notebook/.
+// Pages under docs/ai-research/ say they were written with AI.
+export function isAiGenerated(entry) {
+  return entry.slug === "docs/ai-research" || entry.slug.startsWith("docs/ai-research/");
+}
+
+// Where an entry lives on disk, as shown on its page: docs/course-docs/how-it-works.md, notebook/.
 function sourcePath(slug, kind) {
-  const source = sourceFor(slug);
-  const rest = source.mount ? slug.slice(source.mount.length).replace(/^\//, "") : slug;
-  return `${source.label}/${rest}${kind === "folder" ? (rest ? "/" : "") : ".md"}`;
+  return `${slug}${kind === "folder" ? "/" : ".md"}`;
 }
 
-// The file behind a /context-media/... address (an image a document embeds), or null if it's outside both folders.
+// The file behind a /context-media/... address (an image a document embeds), or null if it's outside the two folders.
 export function mediaFile(segments) {
   const parts = segments.map((segment) => decodeURIComponent(segment));
   const source = sourceFor(parts.join("/"));
-  const rest = source.mount ? parts.slice(1) : parts;
-  const file = path.resolve(source.root, ...rest);
+  if (!source) return null;
+  const file = path.resolve(source.root, ...parts.slice(1));
   return file.startsWith(source.root + path.sep) ? file : null;
 }
 
@@ -103,6 +105,10 @@ async function readFolder(dir, slug, parentTitle) {
     tool: typeof intro.data.tool === "string" ? intro.data.tool : "",
     toolTitle: typeof intro.data.tool_title === "string" ? intro.data.tool_title : "",
     toolCopy: typeof intro.data.tool_copy === "string" ? intro.data.tool_copy : "",
+    // Smaller buttons side by side at the top of the folder's page (`tools: [{ href, title, copy }]`), and a heading
+    // above the list of what the folder holds (`list_heading: Your notes`).
+    tools: Array.isArray(intro.data.tools) ? intro.data.tools.filter((tool) => typeof tool?.href === "string" && typeof tool?.title === "string") : [],
+    listHeading: typeof intro.data.list_heading === "string" ? intro.data.list_heading : "",
     content: intro.content,
     data: intro.data,
     docs: [],
@@ -111,8 +117,6 @@ async function readFolder(dir, slug, parentTitle) {
 
   for (const entry of entries) {
     if (entry.name.startsWith("_") || entry.name.startsWith(".") || entry === readme) continue;
-    // A content/ folder can't be named "context": that address is the repo's _context/.
-    if (!slug && entry.name === contextMount) continue;
     const childSlug = slug ? `${slug}/${entry.name}` : entry.name;
     if (entry.isDirectory()) {
       folder.folders.push(await readFolder(path.join(dir, entry.name), childSlug, slug ? folder.title : ""));
@@ -143,16 +147,16 @@ async function readFolder(dir, slug, parentTitle) {
   return folder;
 }
 
+// The home page: the two folders, in the order their READMEs give (`order:`), as one tree.
 export async function getRoot() {
-  const root = await readFolder(contentRoot, "", "");
-  const context = await readFolder(contextRoot, contextMount, "");
-  if (context.count > 0 || context.content.trim()) {
-    context.mount = true;
-    root.folders.push(context);
-    root.folders.sort(byOrder);
-    root.count += context.count;
-  }
-  return root;
+  const folders = [];
+  for (const source of sources) folders.push(await readFolder(source.root, source.mount, ""));
+  folders.sort(byOrder);
+  const docs = folders.find((folder) => folder.slug === "docs");
+  return {
+    kind: "folder", slug: "", dir: "", source: "", href: "/", title: site.heading, description: site.deck, eyebrow: "", order: 0,
+    content: "", data: docs?.data || {}, docs: [], folders, count: folders.reduce((sum, folder) => sum + folder.count, 0),
+  };
 }
 
 function flatten(folder, out = []) {

@@ -1,12 +1,12 @@
 ---
 title: Writing Markdown here
-description: Frontmatter, links, images, and video in content/ and _context/.
+description: Frontmatter, links, images, and video in docs/ and notebook/.
 order: 2
 ---
 
 # Writing Markdown here
 
-Any `.md` file in `content/` or `_context/` is a page. A folder's `README.md` is the top of that folder's page.
+Any `.md` file in `docs/` or `notebook/` is a page. A folder's `README.md` is the top of that folder's page.
 
 ## Frontmatter
 

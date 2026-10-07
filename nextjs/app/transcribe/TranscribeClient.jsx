@@ -142,7 +142,7 @@ export default function TranscribeClient() {
       </label>
       <button type="button" className="photo-secondary" disabled={busy || cameraLoading} onClick={() => cameraOn ? stopCamera() : startCamera()}>{cameraOn ? "Turn camera off" : cameraLoading ? "Opening camera…" : "Turn camera on"}</button>
       {cameraLoading && <button type="button" className="photo-secondary" onClick={stopCamera}>Cancel camera</button>}
-      <a className="capture-link" href="/context/notebook">Open Notebook →</a>
+      <a className="capture-link" href="/notebook">Open Notebook →</a>
     </div>
     <div className="photo-camera" hidden={!cameraOn && !cameraLoading}>
       <video ref={video} autoPlay muted playsInline aria-label="Camera preview" />

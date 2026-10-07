@@ -2,15 +2,14 @@ import Link from "next/link";
 import { getRoot, site } from "../lib/content.mjs";
 import { SiteFooter, SiteHeader } from "./components/Chrome.jsx";
 import Markdown from "./components/Markdown.jsx";
+import NotebookWink from "./components/NotebookWink.jsx";
 
 export const dynamic = "force-dynamic";
 
 // The tools that sit beside the docs.
 const tools = [
   { href: "/dictate", title: "Dictate", copy: "Press record and talk. Your words become a Markdown note in Notebook." },
-  { href: "/context", title: "Context", copy: "The repo's _context/ folder: working notes and sources, every file a page." },
   { href: "/transcribe", title: "Transcribe", copy: "Photograph your notes or upload images. Save a faithful transcription to Notebook." },
-  { href: "/context/notebook", title: "Notebook", copy: "Your dictated and photographed notes, saved as Markdown, newest first." },
   { href: "/print", title: "Print", copy: "Any page or folder on light paper: put /print in front of its address." },
 ];
 
@@ -25,7 +24,7 @@ function ContextMap({ folders }) {
             <span className="context-count">{folder.count} doc{folder.count === 1 ? "" : "s"}</span>
             {folder.description && <span className="context-note">{folder.description}</span>}
           </Link>
-          {folder.folders.length > 0 && !folder.mount && <ContextMap folders={folder.folders} />}
+          {folder.folders.length > 0 && <ContextMap folders={folder.folders} />}
         </li>
       ))}
     </ul>
@@ -47,6 +46,7 @@ export default async function Home() {
           <h1 id="site-title">{root.title === "Home" ? site.title : root.title}</h1>
           {root.description && <p className="hero-deck">{root.description}</p>}
           {root.content.trim() && <article className="prose hero-intro"><Markdown doc={root} /></article>}
+          <NotebookWink />
         </section>
 
         {steps.length > 0 && (
@@ -82,9 +82,9 @@ export default async function Home() {
 
         <section className="home-section" id="docs" aria-labelledby="docs-title">
           <header className="section-heading">
-            <p className="eyebrow">The docs</p>
+            <p className="eyebrow">The map</p>
             <h2 id="docs-title">What's here</h2>
-            <p>Everything here is Markdown: the docs in <code>content/</code> and the working context in <code>_context/</code>, both at the repo root, the context under <Link href="/context">/context</Link>. Every folder and document has a page; new files show up on refresh, and images beside a document show in it. Dictated and photographed notes land in <Link href="/context/notebook"><code>_context/notebook/</code></Link>.</p>
+            <p>Everything here is Markdown in two folders at the repo root: <Link href="/docs"><code>docs/</code></Link> (readings, research, and instructions) and <Link href="/notebook"><code>notebook/</code></Link> (your own work, where dictated and photographed notes land). Every folder and document has a page; new files show up on refresh, and images beside a document show in it.</p>
           </header>
           <div className="ai-body">
             {root.folders.length > 0 && <ContextMap folders={root.folders} />}
@@ -102,7 +102,7 @@ export default async function Home() {
                 ))}
               </ul>
             )}
-            {root.count === 0 && <p className="empty-state">Nothing here yet. Add a Markdown file to <code>content/</code>.</p>}
+            {root.count === 0 && <p className="empty-state">Nothing here yet. Add a Markdown file to <code>docs/</code> or <code>notebook/</code>.</p>}
           </div>
         </section>
       </main>

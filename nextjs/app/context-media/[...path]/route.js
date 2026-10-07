@@ -4,9 +4,9 @@ import { mediaFile } from "../../../lib/content.mjs";
 
 export const dynamic = "force-dynamic";
 
-// Images beside the Markdown (pictures a document embeds), in content/ or, under /context-media/context/, the repo's
-// _context/, and PDFs a document links to. Markdown.jsx points relative image and PDF links here. Only those types, and
-// nothing outside the two folders.
+// Images beside the Markdown (pictures a document embeds) in docs/ or notebook/ (/context-media/docs/...), and PDFs a
+// document links to. Markdown.jsx points relative image and PDF links here. Only those types, and nothing outside the
+// two folders.
 const types = { ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".gif": "image/gif", ".webp": "image/webp", ".svg": "image/svg+xml", ".pdf": "application/pdf" };
 
 export async function GET(request, { params }) {

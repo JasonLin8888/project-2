@@ -7,7 +7,7 @@ order: 1
 
 # How it works
 
-[Dictate](/dictate) and [Transcribe](/transcribe) both save Markdown documents into your [Notebook](/context/notebook).
+[Dictate](/dictate) and [Transcribe](/transcribe) both save Markdown documents into your [Notebook](/notebook).
 
 ## Dictate a note
 
@@ -29,7 +29,7 @@ Photographs and their transcription records stay in `_media/notebook/`, even if 
 
 ## Your Notebook
 
-Each successful submission writes a new `.md` file in `_context/notebook/`, with a title, date, and source type. New notes never overwrite earlier ones. Open the Notebook to read or print the notes, or edit the Markdown files directly.
+Each successful submission writes a new `.md` file in `notebook/`, with a title, date, and source type. New notes never overwrite earlier ones. Open the Notebook to read or print the notes, or edit the Markdown files directly.
 
 The app reads and writes local files, so capture runs on the laptop hosting it. Media folders are gitignored; keep them with the Markdown if you want the photographs available later.
 

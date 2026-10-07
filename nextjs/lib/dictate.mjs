@@ -1,11 +1,11 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
-import { contextRoot } from "./content.mjs";
+import { notebookRoot } from "./content.mjs";
 
 // A dictated note goes through two models on OpenRouter: an audio model writes down what was said, then a text model
 // turns that transcript into a document. The recording and the raw transcript stay in _media/dictation/ at the repo
-// root (gitignored); the document goes to _context/notebook/, where it is a page (under /context) like any other. Settings come from
+// root (gitignored); the document goes to notebook/, where it is a page like any other. Settings come from
 // nextjs/.env.local; see .env.example.
 
 export const defaults = {
@@ -14,7 +14,7 @@ export const defaults = {
 };
 
 export const dictationRoot = path.resolve(process.cwd(), "..", "_media", "dictation");
-export const notesRoot = path.join(contextRoot, "notebook");
+export const notesRoot = notebookRoot;
 
 const env = (name) => (process.env[name] || "").trim();
 
@@ -114,7 +114,7 @@ export async function saveSidecar(id, data) {
   await writeFile(/* turbopackIgnore: true */ path.join(dictationRoot, `${id}.json`), JSON.stringify(data, null, 2) + "\n");
 }
 
-// _context/notebook/<yyyymmdd-hhmm>-<title>.md. Both voice and photographs use this writer. `order` lists the newest note first; never overwrites an existing file.
+// notebook/<yyyymmdd-hhmm>-<title>.md. Both voice and photographs use this writer. `order` lists the newest note first; never overwrites an existing file.
 export async function writeNote({ id, date, title, description, body, source = "dictation", images = [] }) {
   await mkdir(/* turbopackIgnore: true */ notesRoot, { recursive: true });
   const minute = id.slice(0, 13);
@@ -126,7 +126,7 @@ export async function writeNote({ id, date, title, description, body, source = "
     const name = `${minute}-${slugify(title)}${attempt ? `-${attempt + 1}` : ""}`;
     try {
       await writeFile(/* turbopackIgnore: true */ path.join(notesRoot, `${name}.md`), text, { flag: "wx" });
-      return { slug: `context/notebook/${name}`, file: `_context/notebook/${name}.md` };
+      return { slug: `notebook/${name}`, file: `notebook/${name}.md` };
     } catch (error) {
       if (error.code !== "EEXIST" || attempt >= 20) throw error;
     }

@@ -1,12 +1,12 @@
 import { notFound } from "next/navigation";
-import { getEntries, getEntry, getRoot, site } from "../../../lib/content.mjs";
+import { getEntries, getEntry, getRoot, isAiGenerated, site } from "../../../lib/content.mjs";
 import Markdown from "../../components/Markdown.jsx";
 
 export const dynamic = "force-dynamic";
 
 // /print                 the index
 // /print/all             every document, one per sheet
-// /print/set             the documents named by `print_set:` in the frontmatter of content/README.md
+// /print/set             the documents named by `print_set:` in the frontmatter of docs/README.md
 // /print/<folder>        the folder's README, then every document under it, one per sheet
 // /print/<folder>/<doc>  one document: any page's address with /print in front
 
@@ -22,7 +22,7 @@ function PrintBar({ hint }) {
 function Sheet({ entry, pageBreak }) {
   return (
     <article className={pageBreak ? "print-card page-break" : "print-card"}>
-      <p className="eyebrow">{entry.kind === "folder" ? "Folder" : entry.eyebrow}</p>
+      <p className="eyebrow">{isAiGenerated(entry) ? "AI-generated · " : ""}{entry.kind === "folder" ? "Folder" : entry.eyebrow}</p>
       <h1>{entry.title}</h1>
       {entry.description && <p className="lede">{entry.description}</p>}
       {entry.content.trim() && <div className="prose"><Markdown doc={entry} print /></div>}
@@ -79,7 +79,7 @@ export default async function PrintPage({ params }) {
             </li>
           ))}
         </ul>
-        {printSet.length === 0 && <p className="print-hint">To pick a set for a session, list documents in the frontmatter of <code>content/README.md</code>: <code>print_set: [guides/setup, guides/prompts]</code>.</p>}
+        {printSet.length === 0 && <p className="print-hint">To pick a set for a session, list documents in the frontmatter of <code>docs/README.md</code>: <code>print_set: [docs/course-docs/how-it-works, notebook/some-note]</code>.</p>}
       </main>
     );
   }

@@ -2,8 +2,8 @@ import "@fontsource-variable/inter";
 import "./globals.css";
 
 export const metadata = {
-  title: { default: "TDM 155AI week 5", template: "%s · TDM 155AI week 5" },
-  description: "The week 5 (Research) workbook: docs, working context, and dictation.",
+  title: { default: "The Notebook · TDM 155AI week 5", template: "%s · TDM 155AI week 5" },
+  description: "The Notebook — research, notetaking, writing & creating in the age of AI. TDM 155AI week 5.",
 };
 
 export const viewport = {

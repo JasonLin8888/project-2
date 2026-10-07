@@ -9,11 +9,10 @@ export function SiteHeader({ current = "" }) {
         {site.title} <span>{site.label}</span>
       </Link>
       <nav aria-label="Main navigation">
-        <Link href="/#docs">Docs</Link>
-        <Link href="/context">Context</Link>
+        <Link href="/docs">Docs</Link>
+        <Link href="/notebook">Notebook</Link>
         <Link href="/dictate" aria-current={current === "dictate" ? "page" : undefined}>Dictate</Link>
         <Link href="/transcribe" aria-current={current === "transcribe" ? "page" : undefined}>Transcribe</Link>
-        <Link href="/context/notebook">Notebook</Link>
         <Link href="/print">Print</Link>
       </nav>
     </header>

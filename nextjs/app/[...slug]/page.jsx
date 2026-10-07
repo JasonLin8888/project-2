@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getEntries, getEntry } from "../../lib/content.mjs";
+import { getEntries, getEntry, isAiGenerated } from "../../lib/content.mjs";
 import { SiteFooter, SiteHeader } from "../components/Chrome.jsx";
 import Markdown from "../components/Markdown.jsx";
 
 // Notebook entries are written while the app runs; always read the current files.
 export const dynamic = "force-dynamic";
 
-// Every file and folder in content/, at the same path (content/guides/setup.md is /guides/setup, the folder is
-// /guides), and in the repo's _context/ under /context (see lib/content.mjs).
+// Every file and folder in docs/ and notebook/, at the same path (docs/readings/a.md is /docs/readings/a, the
+// folder is /docs/readings; see lib/content.mjs).
 export async function generateStaticParams() {
   return (await getEntries()).map((entry) => ({ slug: entry.slug.split("/") }));
 }
@@ -65,6 +65,7 @@ export default async function EntryPage({ params }) {
       <main id="main" className="article-shell">
         <Breadcrumbs trail={trail} title={entry.title} />
         <header className="article-heading">
+          {isAiGenerated(entry) && <p className="ai-badge">AI-generated</p>}
           <p className="eyebrow">{entry.kind === "folder" ? `Folder · ${entry.count} document${entry.count === 1 ? "" : "s"}` : entry.eyebrow}</p>
           <h1>{entry.title}</h1>
           {entry.description && <p className="lede">{entry.description}</p>}
@@ -73,7 +74,17 @@ export default async function EntryPage({ params }) {
         </header>
         {entry.kind === "folder" ? (
           <>
-            {entry.tool && (
+            {entry.tools.length > 0 && (
+              <nav className="folder-tools" aria-label="Tools">
+                {entry.tools.map((tool) => (
+                  <Link href={tool.href} className="folder-tool" key={tool.href}>
+                    <span className="folder-tool-title">{tool.title} <span aria-hidden="true">→</span></span>
+                    {tool.copy && <span className="folder-tool-copy">{tool.copy}</span>}
+                  </Link>
+                ))}
+              </nav>
+            )}
+            {entry.tool && !entry.tools.length && (
               <Link href={entry.tool} className="practice-cta folder-cta">
                 <span className="practice-cta-eyebrow">The tool for this step</span>
                 <span className="practice-cta-title">{entry.toolTitle} <span aria-hidden="true">→</span></span>
@@ -81,6 +92,7 @@ export default async function EntryPage({ params }) {
               </Link>
             )}
             {entry.content.trim() && <article className="prose folder-intro"><Markdown doc={entry} /></article>}
+            {entry.listHeading && <h2 className="folder-list-heading">{entry.listHeading}</h2>}
             <FolderList folder={entry} />
           </>
         ) : (
