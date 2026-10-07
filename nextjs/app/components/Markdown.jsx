@@ -2,6 +2,7 @@ import ReactMarkdown from "react-markdown";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import { resolveMarkdownHref } from "../../lib/content.mjs";
+import Diagram from "./Diagram.jsx";
 
 // A relative image path is a file beside the Markdown (in docs/ or notebook/), served by app/context-media/.
 function resolveMediaSrc(src, dir) {
@@ -69,6 +70,31 @@ function Media({ src, alt = "" }) {
   );
 }
 
+// Each ## heading and what follows it, up to the next ##, becomes a <section class="note-section">: one topic, so the
+// "sections" color mode can alternate colors between them. Anything before the first ## stays as it is.
+function rehypeSections() {
+  return (tree) => {
+    const children = [];
+    let section = null;
+    for (const node of tree.children) {
+      if (node.type === "element" && node.tagName === "h2") {
+        section = { type: "element", tagName: "section", properties: { className: ["note-section"] }, children: [] };
+        children.push(section);
+      }
+      (section ? section.children : children).push(node);
+    }
+    tree.children = children;
+  };
+}
+
+// The text of a ```mermaid block, or null for any other <pre>.
+function mermaidSource(node) {
+  const code = node?.children?.find((child) => child.tagName === "code");
+  const classes = code?.properties?.className || [];
+  if (!classes.includes("language-mermaid")) return null;
+  return code.children.map((child) => child.value || "").join("");
+}
+
 // `print`: links print as their text (the address follows in parentheses for outside links), and players as their address.
 export default function Markdown({ doc, print = false }) {
   const dir = doc.dir || "";
@@ -76,7 +102,7 @@ export default function Markdown({ doc, print = false }) {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
-      rehypePlugins={[rehypeSlug]}
+      rehypePlugins={[rehypeSlug, rehypeSections]}
       components={{
         a: ({ href, children }) => {
           // A relative link to a file beside the document (a PDF, an image) opens the file itself.
@@ -92,6 +118,10 @@ export default function Markdown({ doc, print = false }) {
             return <span className="print-url">{caption(alt) || "Media"}: {resolved}</span>;
           }
           return <Media src={resolved} alt={alt} />;
+        },
+        pre: ({ node, children }) => {
+          const source = mermaidSource(node);
+          return source === null ? <pre>{children}</pre> : <Diagram source={source} />;
         },
         p: ({ node, children }) => node?.children?.length === 1 && node.children[0]?.tagName === "img" ? <div className="media-paragraph">{children}</div> : <p>{children}</p>,
       }}

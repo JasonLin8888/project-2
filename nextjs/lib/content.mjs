@@ -1,6 +1,7 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
+import { colorModes } from "./palette.mjs";
 
 export const site = {
   title: "TDM 155AI week 5",
@@ -56,6 +57,14 @@ function titleFromSlug(slug) {
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
+// How a page is color-coded (`colors:` in its frontmatter, otherwise its folder's README, otherwise off):
+// "levels" gives headings, subheadings, and body text their own colors; "sections" alternates two colors, one ## section
+// (one topic) at a time.
+function colorMode(value, fallback = "off") {
+  const mode = typeof value === "string" ? value.trim().toLowerCase() : "";
+  return colorModes.includes(mode) ? mode : fallback;
+}
+
 function number(value, fallback) {
   const parsed = Number(value);
   return Number.isFinite(parsed) ? parsed : fallback;
@@ -83,7 +92,7 @@ async function parse(file) {
   return { data, content, heading };
 }
 
-async function readFolder(dir, slug, parentTitle) {
+async function readFolder(dir, slug, parentTitle, parentColors = "off") {
   let entries = [];
   try {
     entries = await readdir(/* turbopackIgnore: true */ dir, { withFileTypes: true });
@@ -103,6 +112,7 @@ async function readFolder(dir, slug, parentTitle) {
     description: typeof intro.data.description === "string" ? intro.data.description : "",
     eyebrow: typeof intro.data.eyebrow === "string" ? intro.data.eyebrow : parentTitle || "Folder",
     order: number(intro.data.order, 999),
+    colors: colorMode(intro.data.colors, parentColors),
     // A step on the home page (`step: 1`), and the tool its page leads with (`tool: /capture`, `tool_title`, `tool_copy`).
     step: number(intro.data.step, 0),
     subtitle: typeof intro.data.subtitle === "string" ? intro.data.subtitle : "",
@@ -123,7 +133,7 @@ async function readFolder(dir, slug, parentTitle) {
     if (entry.name.startsWith("_") || entry.name.startsWith(".") || entry === readme) continue;
     const childSlug = slug ? `${slug}/${entry.name}` : entry.name;
     if (entry.isDirectory()) {
-      folder.folders.push(await readFolder(path.join(dir, entry.name), childSlug, slug ? folder.title : ""));
+      folder.folders.push(await readFolder(path.join(dir, entry.name), childSlug, slug ? folder.title : "", folder.colors));
       continue;
     }
     if (!entry.isFile() || !entry.name.endsWith(".md")) continue;
@@ -140,6 +150,7 @@ async function readFolder(dir, slug, parentTitle) {
       eyebrow: typeof data.eyebrow === "string" ? data.eyebrow : slug ? folder.title : "Working document",
       updated: typeof data.updated === "string" ? data.updated : "",
       order: number(data.order, 999),
+      colors: colorMode(data.colors, folder.colors),
       content,
       data,
     });
@@ -158,7 +169,7 @@ export async function getRoot() {
   folders.sort(byOrder);
   const docs = folders.find((folder) => folder.slug === "docs");
   return {
-    kind: "folder", slug: "", dir: "", source: "", href: "/", title: site.heading, description: site.deck, eyebrow: "", order: 0,
+    kind: "folder", slug: "", dir: "", source: "", href: "/", title: site.heading, description: site.deck, eyebrow: "", order: 0, colors: "off",
     content: "", data: docs?.data || {}, docs: [], folders, count: folders.reduce((sum, folder) => sum + folder.count, 0),
   };
 }

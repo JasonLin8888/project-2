@@ -6,17 +6,18 @@ This repo is the week's **workbook**: a local Next app that renders two folders 
 
 Two folders of Markdown at the repo root, each a section of the site at the same path (`docs/course-docs/how-it-works.md` is `/docs/course-docs/how-it-works`). Every folder is a page showing its `README.md` above a list of what it holds; names starting with `_` or `.` are skipped.
 
-- **`docs/`**: what we prepared for the week, in four parts. `docs/README.md` can set `print_set:` for `/print/set`.
+- **`docs/`**: what we prepared for the week, in four parts, plus the student's inspiration board. `docs/README.md` can set `print_set:` for `/print/set`.
   - **`docs/course-docs/`**: the Unit 2 project (`unit-2-project.md`, from week 4's draft) and how the workbook works.
   - **`docs/how-to/`**: Claude's ideas on how to make the student's project.
   - **`docs/ai-research/`**: essays and research written with AI, starting with `notetaking-and-workbooks/`. Every page here carries an "AI-generated" label.
   - **`docs/readings/`**: the reading still to do.
+  - **`docs/inspiration/`**: the student's media inspiration board for an AI short drama, copied from both tabs of a Google Doc.
 - **`notebook/`**: the student's own work. Dictated and photographed notes are written here, one file each, named `<yyyymmdd-hhmm>-<title>.md`, newest first; anything else added here is a page too.
 - **`_media/dictation/`**: gitignored, local only. Each recording (`<id>.wav`, 16 kHz mono) with a `<id>.json` beside it holding the raw transcript, the models, and which note it became.
 - **`utils/`**: the image and text generation scripts from weeks 2 and 4, for OpenRouter, fal, and HUIT. Run them from the repo root with the keys in the root `.env`; see [utils/README.md](utils/README.md). What they make lands in `output/` (gitignored).
 - **`nextjs/`**: the app: forced dark, Inter, with a red accent; `/print` is always light.
 
-Frontmatter (all optional): `title`, `description`, `eyebrow`, `updated`, `order`. Each folder's README sets `step:` (with `subtitle`, and optionally `tool`, `tool_title`), which makes it a numbered step on the home page.
+Frontmatter (all optional): `title`, `description`, `eyebrow`, `updated`, `order`, `colors`. Each folder's README sets `step:` (with `subtitle`, and optionally `tool`, `tool_title`), which makes it a numbered step on the home page.
 
 | URL | What |
 | --- | --- |
@@ -24,6 +25,7 @@ Frontmatter (all optional): `title`, `description`, `eyebrow`, `updated`, `order
 | `/docs/...`, `/notebook/...` | Any folder or document in `docs/` or `notebook/` |
 | `/dictate` | Record a note (button or space bar), with an optional line of context. The recording is saved, transcribed by `TRANSCRIBE_MODEL`, cleaned up by `CLEANUP_MODEL`, and written to `notebook/`. |
 | `/transcribe` | Photograph pages with the camera or upload images; a faithful transcription is written to `notebook/` (see below). |
+| `/diagram` | Draw a Mermaid diagram from a template (steps, mind map, story arc, characters, timeline, conversation) with a live preview; save it as a new note in `notebook/`, or as a new `##` section at the end of a note (`?to=notebook/<note>`, linked from every note as "+ Add a diagram"). |
 | `/print` | Light print versions on Letter (the one light surface): put `/print` in front of any page's address, or `/print/all` |
 
 ## Run it
@@ -80,3 +82,9 @@ Target: `https://tdm155ai-week-5.vercel.app`. Connect the private `tdm155ai/tdm1
 Pushes to `main` should trigger production builds. Do not upload local `.env` files or copy API keys into project settings: the app can ask users for their own OpenRouter key.
 
 The hosted reader, print pages, and background video work from repository content. The capture tools currently save recordings, photographs, and Markdown to the local filesystem, so run those on the laptop; Vercel needs a persistent-storage change before online captures can be kept in the notebook.
+
+## Color-coded notes and diagrams (2026-10-07)
+
+`colors:` in a document's frontmatter (or a folder README's, inherited by everything below it) color-codes the page: `levels` gives `##`, `###`, `####`, and body text their own colors; `sections` wraps each `##` section in a panel and alternates teal and amber between topics; `off` is plain. `notebook/` defaults to `levels` and `docs/inspiration/` to `sections`. A **Colors** switch above every document previews the other modes in that browser only (localStorage). The palette is in `nextjs/lib/palette.mjs` and repeated as `--c1`–`--c4` in `globals.css`, with darker inks under `/print`.
+
+Any ```` ```mermaid ```` block is drawn as a diagram in the browser (`app/components/Diagram.jsx`, Mermaid 12): straight lines, thin strokes, the note colors, and `:::c1`–`:::c4` / `:::muted` classes predefined for flowcharts. A broken diagram shows its error and source instead of breaking the page. Dictation's cleanup prompt adds a diagram when the speaker describes or asks for one, and photo transcription redraws hand-drawn diagrams as Mermaid. See `docs/course-docs/colors-and-diagrams.md`.

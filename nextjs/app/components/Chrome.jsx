@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { site } from "../../lib/content.mjs";
 
-// `current` marks the tool page you're on: "dictate", or nothing.
+// `current` marks the tool page you're on: "dictate", "transcribe", "diagram", or nothing.
 export function SiteHeader({ current = "" }) {
   return (
     <header className="site-header">
@@ -13,6 +13,7 @@ export function SiteHeader({ current = "" }) {
         <Link href="/notebook">Notebook</Link>
         <Link href="/dictate" aria-current={current === "dictate" ? "page" : undefined}>Dictate</Link>
         <Link href="/transcribe" aria-current={current === "transcribe" ? "page" : undefined}>Transcribe</Link>
+        <Link href="/diagram" aria-current={current === "diagram" ? "page" : undefined}>Diagram</Link>
         <Link href="/print">Print</Link>
       </nav>
     </header>

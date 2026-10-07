@@ -10,6 +10,7 @@ export const dynamic = "force-dynamic";
 const tools = [
   { href: "/dictate", title: "Dictate", copy: "Press record and talk. Your words become a Markdown note in Notebook." },
   { href: "/transcribe", title: "Transcribe", copy: "Photograph your notes or upload images. Save a faithful transcription to Notebook." },
+  { href: "/diagram", title: "Diagram", copy: "Draw a flowchart, mind map, or timeline with clean lines, and add it to a note." },
   { href: "/print", title: "Print", copy: "Any page or folder on light paper: put /print in front of its address." },
 ];
 

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getEntries, getEntry, isAiGenerated } from "../../lib/content.mjs";
 import { SiteFooter, SiteHeader } from "../components/Chrome.jsx";
 import Markdown from "../components/Markdown.jsx";
+import NoteColors from "../components/NoteColors.jsx";
 
 // Notebook entries are written while the app runs; always read the current files.
 export const dynamic = "force-dynamic";
@@ -91,12 +92,14 @@ export default async function EntryPage({ params }) {
                 {entry.toolCopy && <span className="practice-cta-copy">{entry.toolCopy}</span>}
               </Link>
             )}
-            {entry.content.trim() && <article className="prose folder-intro"><Markdown doc={entry} /></article>}
+            {entry.content.trim() && <article className={`prose folder-intro colors-${entry.colors}`}><Markdown doc={entry} /></article>}
             {entry.listHeading && <h2 className="folder-list-heading">{entry.listHeading}</h2>}
             <FolderList folder={entry} />
           </>
         ) : (
-          <article className="prose"><Markdown doc={entry} /></article>
+          <NoteColors slug={entry.slug} initial={entry.colors} diagramHref={entry.slug.startsWith("notebook/") ? `/diagram?to=${encodeURIComponent(entry.slug)}` : ""}>
+            <Markdown doc={entry} />
+          </NoteColors>
         )}
         {(previous || next) && <nav className="pager" aria-label="More in this folder">
           {previous ? <Link href={previous.href}><span className="eyebrow">← Previous</span><strong>{previous.title}</strong></Link> : <span />}

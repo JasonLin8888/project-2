@@ -25,7 +25,7 @@ function Sheet({ entry, pageBreak }) {
       <p className="eyebrow">{isAiGenerated(entry) ? "AI-generated · " : ""}{entry.kind === "folder" ? "Folder" : entry.eyebrow}</p>
       <h1>{entry.title}</h1>
       {entry.description && <p className="lede">{entry.description}</p>}
-      {entry.content.trim() && <div className="prose"><Markdown doc={entry} print /></div>}
+      {entry.content.trim() && <div className={`prose colors-${entry.colors || "off"}`}><Markdown doc={entry} print /></div>}
     </article>
   );
 }

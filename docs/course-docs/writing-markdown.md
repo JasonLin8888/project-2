@@ -19,6 +19,7 @@ description: One line under the title, and on lists
 eyebrow: The small label above the title
 updated: 2026-10-05
 order: 1
+colors: levels, sections, or off (see colors-and-diagrams.md)
 ---
 ```
 
@@ -27,6 +28,7 @@ order: 1
 - Relative links between `.md` files work as they do on GitHub: [back to how it works](how-it-works.md).
 - An image path is relative to the document, so keep pictures next to the `.md` that shows them.
 - A YouTube link, or a `.mp4` or `.mp3` address, written as an image becomes a player.
+- A code block marked `mermaid` is drawn as a diagram; see [colors and diagrams](colors-and-diagrams.md), or draw one on [/diagram](/diagram).
 
 > Tables, task lists, and strikethrough work too (GitHub-flavored Markdown).
 

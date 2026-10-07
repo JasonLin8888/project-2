@@ -320,3 +320,77 @@ body:has(.print-root) { background: #ffffff; color-scheme: light; }
 .api-key input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
 .api-key .capture-lede { flex-basis: 100%; }
 .api-key-set { align-items: center; justify-content: space-between; border-color: var(--line); font-size: 14px; color: var(--muted); }
+
+/* --- color-coded notes: `colors: levels | sections | off` (frontmatter, or the folder's README) ---
+   The four note colors match lib/palette.mjs, which the diagrams use. */
+:root { --c1: #ffb454; --c2: #5ccfc0; --c3: #b69cff; --c4: #ff8fa3; --c-body: #d9e0e8; }
+.print-root { --c1: #a35400; --c2: #0b7a6e; --c3: #5b3fbf; --c4: #b3263f; --c-body: #1d2733; }
+
+/* Levels: headings, subheadings, and body text each have a color. */
+.colors-levels h2 { padding-bottom: .35em; border-bottom: 1px solid color-mix(in srgb, var(--c1) 45%, transparent); color: var(--c1); }
+.colors-levels h3 { color: var(--c2); }
+.colors-levels h4, .colors-levels h5 { color: var(--c3); }
+.colors-levels p, .colors-levels li, .colors-levels td { color: var(--c-body); }
+.colors-levels li::marker { color: var(--c2); }
+.colors-levels strong { color: var(--ink); }
+.colors-levels blockquote { border-left-color: var(--c3); }
+
+/* Sections: each ## topic is a panel, alternating two colors. */
+.colors-sections .note-section { --sec: var(--c2); margin: 2.2em 0; padding: 2px 0 4px 22px; border-left: 3px solid var(--sec); border-radius: 0 10px 10px 0; background: linear-gradient(90deg, color-mix(in srgb, var(--sec) 9%, transparent), transparent 70%); }
+.colors-sections .note-section:nth-of-type(even) { --sec: var(--c1); }
+.colors-sections .note-section > h2 { margin-top: .7em; color: var(--sec); }
+.colors-sections .note-section h3 { color: color-mix(in srgb, var(--sec) 70%, var(--ink)); }
+.colors-sections .note-section li::marker { color: var(--sec); }
+.colors-sections .note-section blockquote { border-left-color: var(--sec); }
+.colors-sections .note-section > :last-child { margin-bottom: .8em; }
+.print-root .colors-sections .note-section { break-inside: avoid-page; }
+
+/* The switch above a document. */
+.note-tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; max-width: 740px; margin: -24px 0 34px; }
+.note-colors { display: flex; align-items: center; gap: 12px; }
+.note-colors-buttons { display: inline-flex; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: 999px; }
+.note-colors-buttons button { display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px; border: 0; border-radius: 999px; background: transparent; color: var(--muted); font: inherit; font-size: 12px; cursor: pointer; }
+.note-colors-buttons button[aria-pressed="true"] { background: var(--hover); color: var(--ink); }
+.note-colors-buttons button:focus-visible, .note-diagram-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.note-colors-swatch { width: 14px; height: 10px; border-radius: 2px; }
+.swatch-levels { background: linear-gradient(180deg, var(--c1) 0 33%, var(--c2) 33% 66%, var(--c-body) 66%); }
+.swatch-sections { background: linear-gradient(90deg, var(--c2) 0 50%, var(--c1) 50%); }
+.note-diagram-link { padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); font-size: 12px; }
+.note-diagram-link:hover { border-color: var(--c2); color: var(--c2); }
+.note-colors-hint { max-width: 740px; margin: -22px 0 30px; color: var(--muted); font-size: 12px; }
+.note-colors-hint code { padding: .05em .3em; border: 1px solid var(--line); border-radius: 4px; background: var(--code); color: var(--ink); font-family: ui-monospace, monospace; }
+
+/* --- diagrams: ```mermaid blocks, and /diagram --- */
+.diagram { margin: 1.8em 0; padding: 22px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); overflow-x: auto; }
+.diagram-svg { display: flex; justify-content: center; justify-content: safe center; }
+.diagram-svg svg { max-width: 100%; height: auto; }
+/* Mermaid's labels are HTML; keep the page's text styles (margins, line height, the color modes) out of them. */
+.prose .diagram p, .prose .diagram li { margin: 0; padding: 0; color: inherit; line-height: inherit; }
+.diagram-stale { opacity: .35; }
+.diagram-loading { color: var(--muted); font-size: 13px; }
+.diagram-error { color: var(--error); font-size: 13px; line-height: 1.5; }
+.diagram-error pre { margin: 10px 0 0; color: var(--ink); }
+.print-root .diagram { padding: 10px 0; border: 0; break-inside: avoid; }
+
+.diagram-main { width: min(100%, 1280px); }
+.diagram-templates { display: flex; flex-wrap: wrap; gap: 8px; margin: 30px 0 18px; }
+.diagram-templates button { padding: 9px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--wash); color: var(--ink); font: inherit; font-size: 13px; cursor: pointer; }
+.diagram-templates button:hover { border-color: var(--c2); color: var(--c2); }
+.diagram-templates button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.diagram-workspace { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 18px; align-items: start; }
+.diagram-editor { display: grid; gap: 12px; }
+.diagram-editor label { display: grid; gap: 6px; }
+.diagram-editor input, .diagram-editor select, .diagram-editor textarea { font: inherit; color: var(--ink); background: var(--wash); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+.diagram-editor textarea { min-height: 380px; font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: 14px; line-height: 1.55; resize: vertical; tab-size: 2; }
+.diagram-editor input:focus, .diagram-editor select:focus, .diagram-editor textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.diagram-preview { position: sticky; top: 20px; }
+.diagram-preview .diagram { margin: 0; min-height: 300px; }
+.diagram-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.diagram-actions button { padding: 11px 18px; border: 1px solid var(--line); border-radius: 999px; background: var(--wash); color: var(--ink); font: inherit; font-size: 14px; font-weight: 650; cursor: pointer; }
+.diagram-actions button.primary { border-color: var(--accent); background: var(--accent); color: var(--accent-ink); }
+.diagram-actions button:disabled { opacity: .5; cursor: default; }
+.diagram-actions button:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.diagram-help { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+.diagram-help code { padding: .05em .3em; border: 1px solid var(--line); border-radius: 4px; background: var(--code); color: var(--ink); font-family: ui-monospace, monospace; font-size: .9em; }
+.diagram-help .k1 { color: var(--c1); } .diagram-help .k2 { color: var(--c2); } .diagram-help .k3 { color: var(--c3); } .diagram-help .k4 { color: var(--c4); }
+@media (max-width: 900px) { .diagram-workspace { grid-template-columns: 1fr; } .diagram-preview { position: static; } .diagram-editor textarea { min-height: 260px; } }

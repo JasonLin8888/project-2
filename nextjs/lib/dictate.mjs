@@ -92,6 +92,7 @@ function cleanupPrompt(transcript, hint) {
 - Organize it: short paragraphs, with ## headings and lists where the content has that shape. A short note can be a paragraph or two with no headings.
 - Where they gave themselves to-dos, collect them as a task list (- [ ] ...).
 - Where something is unclear or [inaudible], keep it marked rather than guessing.
+- Where they describe a diagram, a flow, a sequence of steps, or how ideas or people connect, or ask for one ("draw this", "make a diagram"), add it as a Mermaid code block (\`\`\`mermaid) beside the text: a flowchart, mindmap, or timeline with short labels, using only what they said. In flowcharts you may color shapes with :::c1, :::c2, :::c3, or :::c4.
 
 Reply in exactly this format, and nothing else:
 
@@ -125,11 +126,11 @@ export async function saveSidecar(id, data) {
   await writeFile(/* turbopackIgnore: true */ path.join(dictationRoot, `${id}.json`), JSON.stringify(data, null, 2) + "\n");
 }
 
-// notebook/<yyyymmdd-hhmm>-<title>.md. Both voice and photographs use this writer. `order` lists the newest note first; never overwrites an existing file.
+// notebook/<yyyymmdd-hhmm>-<title>.md. Voice, photographs, and /diagram use this writer. `order` lists the newest note first; never overwrites an existing file.
 export async function writeNote({ id, date, title, description, body, source = "dictation", images = [] }) {
   await mkdir(/* turbopackIgnore: true */ notesRoot, { recursive: true });
   const minute = id.slice(0, 13);
-  const data = { title, description, eyebrow: source === "photograph" ? "Photographed note" : "Dictated note", source, updated: date.toISOString().slice(0, 10), order: -Number(minute.replace("-", "")) };
+  const data = { title, ...(description ? { description } : {}), eyebrow: { photograph: "Photographed note", diagram: "Diagram" }[source] || "Dictated note", source, updated: date.toISOString().slice(0, 10), order: -Number(minute.replace("-", "")) };
   if (source === "dictation") data.dictation = `_media/dictation/${id}.wav`;
   if (images.length) data.images = images;
   const text = matter.stringify(`\n# ${title}\n\n${body}\n`, data);
