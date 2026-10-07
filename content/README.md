@@ -7,7 +7,7 @@ description: TDM 155AI, Wednesday 2026-10-07.
 
 TDM 155AI, Wednesday 2026-10-07.
 
-This is the week's workbook. Every Markdown file in the app's `content/` folder is a page at the same path, and the repo's working context, the `_context/` folder at the root, is under [/context](/context). Add a file to either and it shows up on refresh.
+This is the week's workbook. Every Markdown file in `content/` is a page at the same path, and the working context in `_context/` is under [/context](/context). Add a file to either and it shows up on refresh.
 
 **[Dictate](/dictate)** is where notes come in: press record, talk, press stop. The recording is transcribed, cleaned up into a readable document, and saved to [`_context/dictation/`](/context/dictation), where it becomes a page like any other.
 

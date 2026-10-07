@@ -10,10 +10,10 @@ export const site = {
 
 // Two folders of Markdown, each file a page and each folder a page too, showing its README.md (if any) above a list
 // of what it holds. Names starting with "_" or "." are skipped.
-// - content/ (in this app) is the site itself: content/a/b.md is /a/b, and content/README.md is the home page's intro.
+// - content/ at the repo root (beside nextjs/) is the site itself: content/a/b.md is /a/b, and content/README.md is the home page's intro.
 // - This repo's working context, _context/ at the repo root (beside nextjs/), is mounted at /context: _context/a/b.md is
 //   /context/a/b. Dictated notes are written to _context/dictation/. Where the folder isn't there, /context is left out.
-export const contentRoot = path.join(process.cwd(), "content");
+export const contentRoot = path.join(process.cwd(), "..", "content");
 export const contextRoot = path.join(process.cwd(), "..", "_context");
 export const contextMount = "context";
 

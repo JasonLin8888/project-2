@@ -81,7 +81,7 @@ export default async function Home() {
           <header className="section-heading">
             <p className="eyebrow">The docs</p>
             <h2 id="docs-title">What's here</h2>
-            <p>Everything here is Markdown: the docs in this app's <code>content/</code> folder, and the working context, the <code>_context/</code> folder at the repo root, under <Link href="/context">/context</Link>. Every folder and document has a page; new files show up on refresh, and images beside a document show in it. Dictated notes land in <Link href="/context/dictation"><code>_context/dictation/</code></Link>.</p>
+            <p>Everything here is Markdown: the docs in <code>content/</code> and the working context in <code>_context/</code>, both at the repo root, the context under <Link href="/context">/context</Link>. Every folder and document has a page; new files show up on refresh, and images beside a document show in it. Dictated notes land in <Link href="/context/dictation"><code>_context/dictation/</code></Link>.</p>
           </header>
           <div className="ai-body">
             {root.folders.length > 0 && <ContextMap folders={root.folders} />}

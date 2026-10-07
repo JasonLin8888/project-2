@@ -8,7 +8,7 @@ order: 1
 
 The workbook has two folders of Markdown and one tool.
 
-- **`nextjs/content/`** holds the docs: this page, the guides, and the week's material. `content/a/b.md` is the page `/a/b`.
+- **`content/`** at the repo root holds the docs: this page, the guides, and the week's material. `content/a/b.md` is the page `/a/b`.
 - **`_context/`** at the repo root holds the working context: notes, sources, and dictation. `_context/a/b.md` is the page `/context/a/b`.
 - **[/dictate](/dictate)** turns your voice into a note in `_context/dictation/`.
 

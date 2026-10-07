@@ -4,7 +4,7 @@ TDM 155AI (*Making Stuff in the Age of AI*), week 5: **Research**. Class meets W
 
 This repo is the week's **workbook**: a local Next app that renders a folder of docs and a folder of working context, with a lightweight dictation tool. It is private for now, and nested in `ll-26-27/ll-week-5` at `apps/tdm155ai-week-5/`. Planning stays in the mk-27 workbook.
 
-- **`nextjs/content/`**: the docs, the site's own Markdown. Every file is a page at the same path (`content/guides/how-it-works.md` is `/guides/how-it-works`), and every folder is a page showing its `README.md` above a list of what it holds. `content/README.md` is the home page's intro. Names starting with `_` or `.` are skipped, and `content/context/` is reserved.
+- **`content/`**: the docs, the site's own Markdown, at the repo root. Every file is a page at the same path (`content/guides/how-it-works.md` is `/guides/how-it-works`), and every folder is a page showing its `README.md` above a list of what it holds. `content/README.md` is the home page's intro. Names starting with `_` or `.` are skipped, and `content/context/` is reserved.
 - **`_context/`**: the working context, at the repo root, mounted at `/context` (`_context/dictation/README.md` is `/context/dictation`). Same rules as `content/`.
 - **`_context/dictation/`**: dictated notes, one file each, named `<yyyymmdd-hhmm>-<title>.md`, newest first.
 - **`_media/dictation/`**: gitignored, local only. Each recording (`<id>.wav`, 16 kHz mono) with a `<id>.json` beside it holding the raw transcript, the models, and which note it became.
@@ -15,7 +15,7 @@ Frontmatter (all optional): `title`, `description`, `eyebrow`, `updated`, `order
 | URL | What |
 | --- | --- |
 | `/` | The intro from `content/README.md`, the tools, and a map of the docs and the context |
-| `/<folder>/<page>` | Any folder or document in `nextjs/content/` |
+| `/<folder>/<page>` | Any folder or document in `content/` |
 | `/context/<folder>/<page>` | Any folder or document in `_context/` |
 | `/dictate` | Record a note (button or space bar), with an optional line of context. The recording is saved, transcribed by `TRANSCRIBE_MODEL`, cleaned up by `CLEANUP_MODEL`, and written to `_context/dictation/`. |
 | `/print` | Light print versions on Letter: put `/print` in front of any page's address, or `/print/all` |
@@ -45,4 +45,4 @@ The app reads and writes the local disk, so it is built to run on a laptop. On a
 
 ## Where this came from
 
-Created 2026-10-04 with a README and `content/`. On 2026-10-07 it became a workbook app: the docs reader and dictation come from `ll-26-27/mk-video-note-machine` (`6edef79`, without `/interview`), and the `/context` mount from `ll-26-27/ll-week-5-interface` (`27c839a`), pointed at this repo's own `_context/` instead of the parent's. The `/capture` route was renamed `/dictate`, and notes go to `_context/dictation/` instead of `content/notes/`.
+Created 2026-10-04 with a README and `content/`. On 2026-10-07 it became a workbook app: the docs reader and dictation come from `ll-26-27/mk-video-note-machine` (`6edef79`, without `/interview`), and the `/context` mount from `ll-26-27/ll-week-5-interface` (`27c839a`), pointed at this repo's own `_context/` instead of the parent's. The `/capture` route was renamed `/dictate`, and notes go to `_context/dictation/` instead of `content/notes/`. Later that day `content/` moved from `nextjs/` to the repo root.
