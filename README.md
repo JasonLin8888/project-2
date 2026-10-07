@@ -32,7 +32,7 @@ pnpm dev
 
 Then open the localhost address it prints. Recording needs Chrome or Safari on the same machine (the microphone requires localhost or HTTPS).
 
-Copy `nextjs/.env.example` to `nextjs/.env.local` and set `OPENROUTER_API_KEY`. Without it, recordings are saved but not transcribed. The models default to `google/gemini-3.8-flash` (transcription; it has to accept audio) and `anthropic/claude-sonnet-5.5` (cleanup). Restart `pnpm dev` after editing it.
+Copy `nextjs/.env.example` to `nextjs/.env.local` and set `OPENROUTER_API_KEY` (`FAL_API_KEY` and `HUIT_API_KEY` are there too, unused by the app so far). The root `.env.example` (copy to `.env`) has the same three keys for scripts run from the repo root. Without it, recordings are saved but not transcribed. The models default to `google/gemini-3.8-flash` (transcription; it has to accept audio) and `anthropic/claude-sonnet-5.5` (cleanup). Restart `pnpm dev` after editing it.
 
 The app reads and writes the local disk, so it is built to run on a laptop. On a deploy (root directory `nextjs`) the `content/` pages and `/print` would work, but dictation can't be saved and `/context` isn't there.
 
