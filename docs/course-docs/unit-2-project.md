@@ -32,11 +32,11 @@ Start a playlist, scrapbook, Pinterest board, or annotated list of examples that
 
 Try a couple of small imitations or remixes, beginning with memes in class. Notice what you preserve from the original form and what happens when you change something. What do you get from working within an established form? Where might you want to depart from it?
 
-## Week 5: Choose your direction and build your workbook
+## Week 5: Choose your direction and build your notebook
 
 **October 7 · Research**
 
-Turn your collection into a repository for learning and practicing whatever you want to make, whether it's a music video, a documentary, or a website. This workbook is that repository: a resource you can actually work from, in a form that both another person and an AI assistant can read. Use AI to help research the form, its conventions, the world or subject of your piece, and the techniques you'll need. Bring together:
+Turn your collection into a repository for learning and practicing whatever you want to make, whether it's a music video, a documentary, or a website. The Notebook is that repository: a resource you can actually work from, in a form that both another person and an AI assistant can read. Use AI to help research the form, its conventions, the world or subject of your piece, and the techniques you'll need. Bring together:
 
 - Examples of the form, with your observations about how they work and what you want to learn from them.
 - Research into the subject or world of your piece.
@@ -51,6 +51,12 @@ Each has a place here:
 - **[Readings](../readings/README.md)**: the reading you still need to do.
 
 The materials should suit your form: video clips, recordings, images, scripts, diagrams, or other useful references. Follow references back to their sources and check what the AI tells you. By this stage, commit to a form and a manageable piece.
+
+**Today's task: start your how-tos.** Ask Claude to think about what you want to make and write tutorials for you, saved as Markdown in [`docs/how-to/`](../how-to/README.md), one per technique. If you're making a music video, ask it how music videos are planned, shot, and edited, and to write how-to docs for the parts you'll need to learn. For example:
+
+> I'm making a music video for a song I recorded with friends. Think about what I'll need to learn to make it, then write a few how-to docs in `docs/how-to/`, one per technique, each with steps I can practice.
+
+Read what it writes against your examples. These are the starting points for next week's studies.
 
 ## Week 6: Practice the small moves
 
@@ -78,7 +84,7 @@ We’ll record these conversations, then use our editing skills to prepare the i
 
 ## Keep showing your work
 
-Share your weekly activity and oral reflection through the course’s usual Slack routine. These activities build toward your project: the examples become your workbook, the workbook informs your studies, and the studies prepare you to make and edit the piece.
+Share your weekly activity and oral reflection through the course’s usual Slack routine. These activities build toward your project: the examples become your notebook, the notebook informs your studies, and the studies prepare you to make and edit the piece.
 
 ## The final package
 
