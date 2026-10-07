@@ -3,6 +3,7 @@ title: Colors and diagrams
 description: Color-code a note by level or by section, and draw diagrams with clean lines while you take notes.
 order: 3
 colors: levels
+author: claude
 ---
 
 # Colors and diagrams

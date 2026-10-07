@@ -4,6 +4,7 @@ description: Six small exercises for week 6, each testing one skill the film dep
 eyebrow: How-to · Claude's ideas
 order: 2
 colors: sections
+author: claude
 ---
 
 # Practice studies for the AI short drama

@@ -4,6 +4,7 @@ description: A plan for the ink-dragon short, from premise to final cut, with ti
 eyebrow: How-to · Claude's ideas
 order: 1
 colors: sections
+author: claude
 ---
 
 # Making the AI short drama
