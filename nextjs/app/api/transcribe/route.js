@@ -31,7 +31,7 @@ export async function POST(request) {
   const date = new Date();
   const id = `${stamp(date)}-${randomUUID()}`;
   const hint = String(form.get("hint") || "").trim().slice(0, 2000);
-  const config = photoConfig();
+  const config = photoConfig(request);
   let names;
   try { names = await savePhotos(images, id); } catch (error) {
     return Response.json({ error: `Could not save the photographs: ${error.message}` }, { status: 500 });
@@ -40,7 +40,7 @@ export async function POST(request) {
   const result = { id, images: names.map((name) => `/notebook-media/${name}`) };
   if (!config.apiKey) {
     await savePhotoRecord(id, record).catch(() => {});
-    return Response.json({ ...result, warning: "Photographs saved. Add OPENROUTER_API_KEY to .env.local to transcribe them." });
+    return Response.json({ ...result, warning: "Photographs saved. Add an OpenRouter key on this page (or OPENROUTER_API_KEY in .env.local) to transcribe them." });
   }
   try {
     const doc = await withTimeout(transcribePhotos(images, hint, config), 300000, "Photo transcription");

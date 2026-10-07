@@ -29,12 +29,12 @@ export async function POST(request) {
   const id = `${stamp(date)}-${randomUUID()}`;
   try { await saveAudio(wav, id); } catch (error) { return Response.json({ error: `Could not save the recording: ${error.message}` }, { status: 500 }); }
 
-  const config = dictateConfig();
+  const config = dictateConfig(request);
   const result = { id, audio: `_media/dictation/${id}.wav` };
   const sidecar = { created: date.toISOString(), hint, transcribeModel: config.transcribeModel, cleanupModel: config.cleanupModel };
   if (!config.apiKey) {
     await saveSidecar(id, sidecar).catch(() => {});
-    return Response.json({ ...result, warning: "Recording saved. Add OPENROUTER_API_KEY to .env.local to transcribe it." });
+    return Response.json({ ...result, warning: "Recording saved. Add an OpenRouter key on this page (or OPENROUTER_API_KEY in .env.local) to transcribe it." });
   }
 
   try {

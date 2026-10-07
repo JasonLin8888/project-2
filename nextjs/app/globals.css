@@ -312,3 +312,11 @@ body:has(.print-root) { background: #ffffff; color-scheme: light; }
 .folder-tool-title { font-size: clamp(22px, 2.6vw, 30px); font-weight: 800; letter-spacing: -.04em; line-height: 1; }
 .folder-tool-copy { font-size: 14px; line-height: 1.45; opacity: .85; }
 .folder-list-heading { margin: 8px 0 12px; font-size: clamp(28px, 3.6vw, 44px); font-weight: 800; letter-spacing: -.045em; line-height: 1; }
+
+/* --- your own OpenRouter key, asked for on /dictate and /transcribe when the app has none --- */
+.api-key { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; margin: 0 0 22px; padding: 18px 20px; border: 1px solid var(--accent); border-radius: 10px; }
+.api-key label { display: grid; gap: 6px; flex: 1 1 280px; }
+.api-key input { font: inherit; font-size: 15px; color: var(--ink); background: var(--wash); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; }
+.api-key input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.api-key .capture-lede { flex-basis: 100%; }
+.api-key-set { align-items: center; justify-content: space-between; border-color: var(--line); font-size: 14px; color: var(--muted); }

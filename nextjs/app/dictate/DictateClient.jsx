@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import ApiKeyField, { useUserKey } from "../components/ApiKeyField.jsx";
 import { MicrophonePicker, RecordButton, toWav, useRecorder, useSpaceBar } from "../components/recorder.js";
 
 export default function DictateClient() {
@@ -8,6 +9,8 @@ export default function DictateClient() {
   const [hint, setHint] = useState("");
   const [status, setStatus] = useState({ tone: "muted", text: "Ready. Press Record or the space bar." });
   const [recent, setRecent] = useState([]);
+  const userKey = useUserKey();
+  const canTranscribe = Boolean(config?.ready || userKey.key);
 
   useEffect(() => {
     fetch("/api/dictate").then((response) => response.json()).then(setConfig).catch(() => {});
@@ -20,11 +23,11 @@ export default function DictateClient() {
     setRecent((items) => [{ id, title: hintText || "New note", note: "Preparing the audio…", tone: "muted" }, ...items].slice(0, 20));
     try {
       const wav = await toWav(blob);
-      update({ note: config?.ready ? "Transcribing and cleaning up… (this can take a minute)" : "Saving the recording…" });
+      update({ note: canTranscribe ? "Transcribing and cleaning up… (this can take a minute)" : "Saving the recording…" });
       const form = new FormData();
       form.append("audio", wav, "dictation.wav");
       form.append("hint", hintText);
-      const response = await fetch("/api/dictate", { method: "POST", body: form });
+      const response = await fetch("/api/dictate", { method: "POST", body: form, headers: userKey.headers });
       const result = await response.json();
       if (result.href) {
         const tone = result.warning ? "warn" : "ok";
@@ -40,7 +43,7 @@ export default function DictateClient() {
       update({ note: error.message, tone: "error" });
       setStatus({ tone: "error", text: error.message });
     }
-  }, [config]);
+  }, [canTranscribe, userKey.headers]);
 
   const onRecorded = useCallback((blob) => {
     setStatus({ tone: "muted", text: "Sent. You can record the next one." });
@@ -55,10 +58,10 @@ export default function DictateClient() {
     <div className={recorder.recording ? "capture capture-recording" : "capture"}>
       <div className="capture-bar">
         <MicrophonePicker recorder={recorder} />
-        {config && (config.ready
-          ? <span className="capture-models">Transcribe: <code>{config.transcribeModel}</code> · Clean up: <code>{config.cleanupModel}</code></span>
-          : <span className="capture-models">Add <code>OPENROUTER_API_KEY</code> to <code>.env.local</code> to transcribe; until then, recordings are only saved.</span>)}
+        {config && canTranscribe && <span className="capture-models">Transcribe: <code>{config.transcribeModel}</code> · Clean up: <code>{config.cleanupModel}</code></span>}
       </div>
+
+      <ApiKeyField config={config} userKey={userKey} purpose="transcribe recordings" />
 
       <label className="capture-hint">
         <span className="eyebrow">What's this about? (optional)</span>

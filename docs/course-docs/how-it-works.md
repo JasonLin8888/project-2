@@ -39,7 +39,7 @@ Set these in `nextjs/.env.local` and restart the app after changing them:
 
 | Setting | What it does |
 | --- | --- |
-| `OPENROUTER_API_KEY` | Required to transcribe. Without it, audio and images are saved, but no Markdown note is created. |
+| `OPENROUTER_API_KEY` | Used to transcribe. Without it, Dictate and Transcribe ask for your own OpenRouter key, which stays in your browser. With no key at all, audio and images are saved, but no Markdown note is created. |
 | `TRANSCRIBE_MODEL` | Audio transcription model. |
 | `CLEANUP_MODEL` | Text model for cleaning up dictated notes. |
 | `PHOTO_TRANSCRIBE_MODEL` | Image-input model for photographed notes; defaults to `TRANSCRIBE_MODEL`. |

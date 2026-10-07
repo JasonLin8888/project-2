@@ -5,8 +5,8 @@ import { chat, dictateConfig, parseCleanup } from "./dictate.mjs";
 export const photosRoot = path.resolve(process.cwd(), "..", "_media", "notebook");
 export const photoLimits = { count: 12, perImage: 10 * 1024 * 1024, total: 30 * 1024 * 1024 };
 
-export function photoConfig() {
-  const config = dictateConfig();
+export function photoConfig(request) {
+  const config = dictateConfig(request);
   return { apiKey: config.apiKey, model: process.env.PHOTO_TRANSCRIBE_MODEL?.trim() || config.transcribeModel };
 }
 

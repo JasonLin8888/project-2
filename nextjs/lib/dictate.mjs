@@ -18,15 +18,26 @@ export const notesRoot = notebookRoot;
 
 const env = (name) => (process.env[name] || "").trim();
 
-export function dictateConfig() {
+// When nextjs/.env.local has no OPENROUTER_API_KEY, a page can send the user's own key with a request, in this header.
+// It is used for that request only: never saved, logged, or written into a sidecar.
+export const userKeyHeader = "x-openrouter-key";
+
+function userKey(request) {
+  const key = (request?.headers?.get(userKeyHeader) || "").trim();
+  return /^[\w-]{10,300}$/.test(key) ? key : "";
+}
+
+// The server's key wins; otherwise the key the page sent, if any.
+export function dictateConfig(request) {
   return {
-    apiKey: env("OPENROUTER_API_KEY"),
+    apiKey: env("OPENROUTER_API_KEY") || userKey(request),
     transcribeModel: env("TRANSCRIBE_MODEL") || defaults.transcribeModel,
     cleanupModel: env("CLEANUP_MODEL") || defaults.cleanupModel,
   };
 }
 
-// What the capture page is allowed to know: whether a key is set and which models run, not the key.
+// What the capture page is allowed to know: whether the server has a key and which models run, not the key. Without
+// one (`ready: false`), the page asks for the user's own.
 export function publicConfig() {
   const { apiKey, transcribeModel, cleanupModel } = dictateConfig();
   return { ready: Boolean(apiKey), transcribeModel, cleanupModel };

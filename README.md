@@ -38,7 +38,7 @@ pnpm dev
 
 Then open the localhost address it prints. Recording needs Chrome or Safari on the same machine (the microphone requires localhost or HTTPS).
 
-Copy `nextjs/.env.example` to `nextjs/.env.local` and set `OPENROUTER_API_KEY` (`FAL_API_KEY` and `HUIT_API_KEY` are there too, unused by the app so far). The root `.env.example` (copy to `.env`) has the same three keys for scripts run from the repo root. Without it, recordings are saved but not transcribed. The models default to `google/gemini-3.8-flash` (transcription; it has to accept audio) and `anthropic/claude-sonnet-5.5` (cleanup). Restart `pnpm dev` after editing it.
+Copy `nextjs/.env.example` to `nextjs/.env.local` and set `OPENROUTER_API_KEY` (`FAL_API_KEY` and `HUIT_API_KEY` are there too, unused by the app so far). The root `.env.example` (copy to `.env`) has the same three keys for scripts run from the repo root. Without it, `/dictate` and `/transcribe` ask for the user's own OpenRouter key, keep it in that browser (localStorage), and send it with each request in an `X-OpenRouter-Key` header; the server uses it for that request only and never writes it to disk. With no key at all, recordings and photographs are saved but not transcribed. The models default to `google/gemini-3.8-flash` (transcription; it has to accept audio) and `anthropic/claude-sonnet-5.5` (cleanup). Restart `pnpm dev` after editing it.
 
 The app reads and writes the local disk, so it is built to run on a laptop. On a deploy (root directory `nextjs`) the `docs/` pages and `/print` would work, but dictation and transcription can't be saved.
 

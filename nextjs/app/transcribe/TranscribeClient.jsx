@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import ApiKeyField, { useUserKey } from "../components/ApiKeyField.jsx";
 
 export default function TranscribeClient() {
   const video = useRef(null);
@@ -17,6 +18,7 @@ export default function TranscribeClient() {
   const [config, setConfig] = useState(null);
   const [status, setStatus] = useState({ tone: "muted", text: "Choose images or turn on the camera." });
   const [recent, setRecent] = useState([]);
+  const userKey = useUserKey();
 
   useEffect(() => {
     fetch("/api/transcribe").then((response) => response.json()).then(setConfig).catch(() => {});
@@ -121,7 +123,7 @@ export default function TranscribeClient() {
     pages.forEach((page) => form.append("images", page.file));
     form.append("hint", hint);
     try {
-      const response = await fetch("/api/transcribe", { method: "POST", body: form });
+      const response = await fetch("/api/transcribe", { method: "POST", body: form, headers: userKey.headers });
       const result = await response.json();
       if (!response.ok || result.error) throw new Error(result.error || `HTTP ${response.status}`);
       setStatus({ tone: result.warning ? "warn" : "ok", text: result.warning || `Saved to Notebook: ${result.title}`, href: result.href });
@@ -171,7 +173,7 @@ export default function TranscribeClient() {
       <span className="eyebrow">What's this about? (optional)</span>
       <textarea rows={2} value={hint} disabled={busy} onChange={(event) => setHint(event.target.value)} placeholder="A topic or names that may help read the handwriting" />
     </label>
-    {config && !config.ready && <p className="capture-status capture-status-warn">Transcription isn't configured yet. Photographs can be saved, but no Notebook entry will be created.</p>}
+    <ApiKeyField config={config} userKey={userKey} purpose="transcribe photographs" />
     <button type="button" className="capture-button" disabled={busy || !pages.length} onClick={submit}>{busy ? "Transcribing…" : "Transcribe to Notebook"}</button>
     <p className={`capture-status capture-status-${status.tone}`} role="status">{status.text}{status.href && <> · <a className="capture-link" href={status.href}>Open note →</a></>}</p>
     {recent.length > 0 && <ul className="capture-recent" aria-label="Recent photographed notes">
