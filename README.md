@@ -8,7 +8,7 @@ This repo is the week's **workbook**: a local Next app that renders a folder of 
 - **`_context/`**: the working context, at the repo root, mounted at `/context` (`_context/dictation/README.md` is `/context/dictation`). Same rules as `content/`.
 - **`_context/dictation/`**: dictated notes, one file each, named `<yyyymmdd-hhmm>-<title>.md`, newest first.
 - **`_media/dictation/`**: gitignored, local only. Each recording (`<id>.wav`, 16 kHz mono) with a `<id>.json` beside it holding the raw transcript, the models, and which note it became.
-- **`nextjs/`**: the app: light only, Inter, with a red accent.
+- **`nextjs/`**: the app: forced dark, Inter, with a red accent; `/print` is always light.
 
 Frontmatter (all optional): `title`, `description`, `eyebrow`, `updated`, `order`.
 
@@ -18,7 +18,7 @@ Frontmatter (all optional): `title`, `description`, `eyebrow`, `updated`, `order
 | `/<folder>/<page>` | Any folder or document in `content/` |
 | `/context/<folder>/<page>` | Any folder or document in `_context/` |
 | `/dictate` | Record a note (button or space bar), with an optional line of context. The recording is saved, transcribed by `TRANSCRIBE_MODEL`, cleaned up by `CLEANUP_MODEL`, and written to `_context/dictation/`. |
-| `/print` | Light print versions on Letter: put `/print` in front of any page's address, or `/print/all` |
+| `/print` | Light print versions on Letter (the one light surface): put `/print` in front of any page's address, or `/print/all` |
 
 ## Run it
 

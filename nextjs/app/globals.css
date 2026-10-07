@@ -1,15 +1,18 @@
 :root {
-  --paper: #fbfbf8;
-  --ink: #161816;
-  --muted: #5d625a;
-  --line: #dcdfd8;
-  --accent: #c8102e;
-  --accent-ink: #ffffff;
-  --wash: #f2f3ef;
-  --hover: #e9ebe5;
-  --code: #f2f3ef;
+  /* Dark always (forced for this site). Print pages (.print-root) are always light. */
+  --paper: #121412;
+  --ink: #ecece6;
+  --muted: #a0a49a;
+  --line: #2c2f2b;
+  --accent: #ff5468;
+  --accent-ink: #1a0508;
+  --wash: #1a1c19;
+  --hover: #20231f;
+  --code: #1a1c19;
+  --ok: #7fc787;
+  --error: #ff8a80;
   --gutter: clamp(18px, 4vw, 64px);
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -209,9 +212,9 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .capture-meter span { display: block; height: 100%; background: var(--accent); transition: width .08s linear; }
 .capture-status { margin: 14px 0 0; font-size: 14px; min-height: 1.5em; overflow-wrap: anywhere; }
 .capture-status-muted { color: var(--muted); }
-.capture-status-ok { color: #2f7d32; }
+.capture-status-ok { color: var(--ok); }
 .capture-status-warn { color: var(--accent); }
-.capture-status-error { color: #8a1c14; font-weight: 600; }
+.capture-status-error { color: var(--error); font-weight: 600; }
 .capture-recent { list-style: none; margin: 36px 0 0; padding: 0; border-top: 1px solid var(--line); }
 .capture-recent li { display: grid; gap: 6px; padding: 20px 0; border-bottom: 1px solid var(--line); }
 .capture-recent strong { font-size: 21px; letter-spacing: -.03em; }
@@ -225,7 +228,8 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .capture-lede { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
 
 /* --- print surface: the one light theme, for /print/* (from tdm155ai-week-3) --- */
-.print-root { --paper: #ffffff; --ink: #111311; --muted: #555a54; --line: #d5d8d2; --accent: #c8102e; --wash: #f4f4f0; --code: #f4f4f0; background: var(--paper); color: var(--ink); min-height: 100vh; color-scheme: light; }
+body:has(.print-root) { background: #ffffff; color-scheme: light; }
+.print-root { --paper: #ffffff; --ink: #111311; --muted: #555a54; --line: #d5d8d2; --accent: #c8102e; --accent-ink: #ffffff; --wash: #f4f4f0; --hover: #e9ebe5; --code: #f4f4f0; --ok: #2f7d32; --error: #8a1c14; background: var(--paper); color: var(--ink); min-height: 100vh; color-scheme: light; }
 .print-root ::selection { background: #f6d0d6; color: var(--ink); }
 .print-main { max-width: 760px; margin: 0 auto; padding: 36px 24px 72px; }
 .print-bar { display: flex; justify-content: space-between; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--line); padding-bottom: 10px; margin-bottom: 28px; }
