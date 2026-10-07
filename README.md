@@ -16,6 +16,8 @@ Two folders of Markdown at the repo root, each a section of the site at the same
 - **`utils/`**: the image and text generation scripts from weeks 2 and 4, for OpenRouter, fal, and HUIT. Run them from the repo root with the keys in the root `.env`; see [utils/README.md](utils/README.md). What they make lands in `output/` (gitignored).
 - **`nextjs/`**: the app: forced dark, Inter, with a red accent; `/print` is always light.
 
+`AGENTS.md` (read by Claude through `CLAUDE.md`) tells a student's AI assistant what the repo is for, the week 5 process (an AI-enhanced notebook for the Unit 2 project, starting with how-to docs in `docs/how-to/`), where things go, and to mark what it writes `author: claude`.
+
 Frontmatter (all optional): `title`, `description`, `eyebrow`, `updated`, `order`. Each folder's README sets `step:` (with `subtitle`, and optionally `tool`, `tool_title`), which makes it a numbered step on the home page.
 
 | URL | What |
