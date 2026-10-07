@@ -7,6 +7,8 @@ _media/*
 !_media/.gitkeep
 _raw/
 _temp/
+# what the utils/ scripts generate
+output/
 
 # --- secrets ---
 .env

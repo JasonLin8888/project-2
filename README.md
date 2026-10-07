@@ -8,6 +8,7 @@ This repo is the week's **workbook**: a local Next app that renders a folder of 
 - **`_context/`**: the working context, at the repo root, mounted at `/context` (`_context/dictation/README.md` is `/context/dictation`). Same rules as `content/`.
 - **`_context/dictation/`**: dictated notes, one file each, named `<yyyymmdd-hhmm>-<title>.md`, newest first.
 - **`_media/dictation/`**: gitignored, local only. Each recording (`<id>.wav`, 16 kHz mono) with a `<id>.json` beside it holding the raw transcript, the models, and which note it became.
+- **`utils/`**: the image and text generation scripts from weeks 2 and 4, for OpenRouter, fal, and HUIT. Run them from the repo root with the keys in the root `.env`; see [utils/README.md](utils/README.md). What they make lands in `output/` (gitignored).
 - **`nextjs/`**: the app: forced dark, Inter, with a red accent; `/print` is always light.
 
 Frontmatter (all optional): `title`, `description`, `eyebrow`, `updated`, `order`.
