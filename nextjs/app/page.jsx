@@ -3,11 +3,14 @@ import { getRoot, site } from "../lib/content.mjs";
 import { SiteFooter, SiteHeader } from "./components/Chrome.jsx";
 import Markdown from "./components/Markdown.jsx";
 
+export const dynamic = "force-dynamic";
+
 // The tools that sit beside the docs.
 const tools = [
-  { href: "/dictate", title: "Dictate", copy: "Press record and talk. It's transcribed, cleaned up, and saved as a Markdown doc in _context/dictation/." },
-  { href: "/context", title: "Context", copy: "The repo's _context/ folder: working notes, sources, and dictation, every file a page." },
-  { href: "/context/dictation", title: "Dictation", copy: "Every dictated note, newest first." },
+  { href: "/dictate", title: "Dictate", copy: "Press record and talk. Your words become a Markdown note in Notebook." },
+  { href: "/context", title: "Context", copy: "The repo's _context/ folder: working notes and sources, every file a page." },
+  { href: "/transcribe", title: "Transcribe", copy: "Photograph your notes or upload images. Save a faithful transcription to Notebook." },
+  { href: "/context/notebook", title: "Notebook", copy: "Your dictated and photographed notes, saved as Markdown, newest first." },
   { href: "/print", title: "Print", copy: "Any page or folder on light paper: put /print in front of its address." },
 ];
 
@@ -81,7 +84,7 @@ export default async function Home() {
           <header className="section-heading">
             <p className="eyebrow">The docs</p>
             <h2 id="docs-title">What's here</h2>
-            <p>Everything here is Markdown: the docs in <code>content/</code> and the working context in <code>_context/</code>, both at the repo root, the context under <Link href="/context">/context</Link>. Every folder and document has a page; new files show up on refresh, and images beside a document show in it. Dictated notes land in <Link href="/context/dictation"><code>_context/dictation/</code></Link>.</p>
+            <p>Everything here is Markdown: the docs in <code>content/</code> and the working context in <code>_context/</code>, both at the repo root, the context under <Link href="/context">/context</Link>. Every folder and document has a page; new files show up on refresh, and images beside a document show in it. Dictated and photographed notes land in <Link href="/context/notebook"><code>_context/notebook/</code></Link>.</p>
           </header>
           <div className="ai-body">
             {root.folders.length > 0 && <ContextMap folders={root.folders} />}

@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata = { title: "Dictate" };
 
-// Dictate a note: the browser records, /api/dictate transcribes and cleans it up, and the note lands in _context/dictation/.
+// Dictate a note: the browser records, /api/dictate transcribes and cleans it up, and the note lands in _context/notebook/.
 export default function DictatePage() {
   return (
     <>
@@ -14,7 +14,7 @@ export default function DictatePage() {
         <header className="capture-heading">
           <p className="eyebrow">Dictate</p>
           <h1>Dictate a note</h1>
-          <p>Press record (or the space bar), talk, and press it again to stop. The recording is transcribed, cleaned up, and saved as a doc in <code>_context/dictation/</code>.</p>
+          <p>Press record (or the space bar), talk, and press it again to stop. Your recording is transcribed, cleaned up, and saved to your <a className="inline-link" href="/context/notebook">Notebook</a>.</p>
         </header>
         <DictateClient />
       </main>

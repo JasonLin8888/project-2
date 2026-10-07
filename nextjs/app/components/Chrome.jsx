@@ -12,7 +12,8 @@ export function SiteHeader({ current = "" }) {
         <Link href="/#docs">Docs</Link>
         <Link href="/context">Context</Link>
         <Link href="/dictate" aria-current={current === "dictate" ? "page" : undefined}>Dictate</Link>
-        <Link href="/context/dictation">Dictation</Link>
+        <Link href="/transcribe" aria-current={current === "transcribe" ? "page" : undefined}>Transcribe</Link>
+        <Link href="/context/notebook">Notebook</Link>
         <Link href="/print">Print</Link>
       </nav>
     </header>

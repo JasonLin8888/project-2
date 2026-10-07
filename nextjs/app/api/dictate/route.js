@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { cleanUp, dictateConfig, publicConfig, saveAudio, saveSidecar, stamp, transcribe, withTimeout, writeNote } from "../../../lib/dictate.mjs";
 
 export const dynamic = "force-dynamic";
@@ -25,7 +26,7 @@ export async function POST(request) {
   if (wav.toString("ascii", 0, 4) !== "RIFF" || wav.toString("ascii", 8, 12) !== "WAVE") return Response.json({ error: "Only WAV recordings are accepted." }, { status: 415 });
 
   const date = new Date();
-  const id = `${stamp(date)}-${String(date.getMilliseconds()).padStart(3, "0")}`;
+  const id = `${stamp(date)}-${randomUUID()}`;
   try { await saveAudio(wav, id); } catch (error) { return Response.json({ error: `Could not save the recording: ${error.message}` }, { status: 500 }); }
 
   const config = dictateConfig();

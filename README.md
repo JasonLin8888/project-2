@@ -5,8 +5,8 @@ TDM 155AI (*Making Stuff in the Age of AI*), week 5: **Research**. Class meets W
 This repo is the week's **workbook**: a local Next app that renders a folder of docs and a folder of working context, with a lightweight dictation tool. It is private for now, and nested in `ll-26-27/ll-week-5` at `apps/tdm155ai-week-5/`. Planning stays in the mk-27 workbook.
 
 - **`content/`**: the docs, the site's own Markdown, at the repo root. Every file is a page at the same path (`content/guides/how-it-works.md` is `/guides/how-it-works`), and every folder is a page showing its `README.md` above a list of what it holds. `content/README.md` is the home page's intro. Names starting with `_` or `.` are skipped, and `content/context/` is reserved.
-- **`_context/`**: the working context, at the repo root, mounted at `/context` (`_context/dictation/README.md` is `/context/dictation`). Same rules as `content/`.
-- **`_context/dictation/`**: dictated notes, one file each, named `<yyyymmdd-hhmm>-<title>.md`, newest first.
+- **`_context/`**: the working context, at the repo root, mounted at `/context` (`_context/notebook/README.md` is `/context/notebook`). Same rules as `content/`.
+- **`_context/notebook/`**: dictated and photographed notes, one file each, named `<yyyymmdd-hhmm>-<title>.md`, newest first.
 - **`_media/dictation/`**: gitignored, local only. Each recording (`<id>.wav`, 16 kHz mono) with a `<id>.json` beside it holding the raw transcript, the models, and which note it became.
 - **`utils/`**: the image and text generation scripts from weeks 2 and 4, for OpenRouter, fal, and HUIT. Run them from the repo root with the keys in the root `.env`; see [utils/README.md](utils/README.md). What they make lands in `output/` (gitignored).
 - **`nextjs/`**: the app: forced dark, Inter, with a red accent; `/print` is always light.
@@ -18,7 +18,7 @@ Frontmatter (all optional): `title`, `description`, `eyebrow`, `updated`, `order
 | `/` | The intro from `content/README.md`, the tools, and a map of the docs and the context |
 | `/<folder>/<page>` | Any folder or document in `content/` |
 | `/context/<folder>/<page>` | Any folder or document in `_context/` |
-| `/dictate` | Record a note (button or space bar), with an optional line of context. The recording is saved, transcribed by `TRANSCRIBE_MODEL`, cleaned up by `CLEANUP_MODEL`, and written to `_context/dictation/`. |
+| `/dictate` | Record a note (button or space bar), with an optional line of context. The recording is saved, transcribed by `TRANSCRIBE_MODEL`, cleaned up by `CLEANUP_MODEL`, and written to `_context/notebook/`. |
 | `/print` | Light print versions on Letter (the one light surface): put `/print` in front of any page's address, or `/print/all` |
 
 ## Run it
@@ -46,4 +46,12 @@ The app reads and writes the local disk, so it is built to run on a laptop. On a
 
 ## Where this came from
 
-Created 2026-10-04 with a README and `content/`. On 2026-10-07 it became a workbook app: the docs reader and dictation come from `ll-26-27/mk-video-note-machine` (`6edef79`, without `/interview`), and the `/context` mount from `ll-26-27/ll-week-5-interface` (`27c839a`), pointed at this repo's own `_context/` instead of the parent's. The `/capture` route was renamed `/dictate`, and notes go to `_context/dictation/` instead of `content/notes/`. Later that day `content/` moved from `nextjs/` to the repo root.
+Created 2026-10-04 with a README and `content/`. On 2026-10-07 it became a workbook app: the docs reader and dictation come from `ll-26-27/mk-video-note-machine` (`6edef79`, without `/interview`), and the `/context` mount from `ll-26-27/ll-week-5-interface` (`27c839a`), pointed at this repo's own `_context/` instead of the parent's. The `/capture` route was renamed `/dictate`, and notes initially went to `_context/dictation/` instead of `content/notes/`. Later that day `content/` moved from `nextjs/` to the repo root.
+
+## Notebook: voice and photographs (2026-10-07)
+
+`/dictate` and `/transcribe` both write new Markdown files into `_context/notebook/`, displayed at `/context/notebook` (also accessible via `/notebook`). The old `/context/dictation` addresses redirect to Notebook.
+
+`/transcribe` accepts live webcam photographs or uploaded JPEG, PNG, and WebP images, with previews, removal, and page ordering. It preserves the photographed wording, marks illegible text, and embeds the source photographs below the transcription. Originals and the model output are kept in the gitignored `_media/notebook/` folder before a note is written. Set `PHOTO_TRANSCRIBE_MODEL` to an image-input OpenRouter model; it falls back to `TRANSCRIBE_MODEL`.
+
+Limits: 12 images, 10 MB per image, 30 MB total. The API rejects other formats and uses generated filenames. Both capture flows require a local writable filesystem; a static deployment does not persist notebook entries.

@@ -12,7 +12,7 @@ export const site = {
 // of what it holds. Names starting with "_" or "." are skipped.
 // - content/ at the repo root (beside nextjs/) is the site itself: content/a/b.md is /a/b, and content/README.md is the home page's intro.
 // - This repo's working context, _context/ at the repo root (beside nextjs/), is mounted at /context: _context/a/b.md is
-//   /context/a/b. Dictated notes are written to _context/dictation/. Where the folder isn't there, /context is left out.
+//   /context/a/b. Dictated notes are written to _context/notebook/. Where the folder isn't there, /context is left out.
 export const contentRoot = path.join(process.cwd(), "..", "content");
 export const contextRoot = path.join(process.cwd(), "..", "_context");
 export const contextMount = "context";
@@ -27,7 +27,7 @@ function sourceFor(slug) {
   return sources.find((source) => source.mount && source.mount === first) || sources[0];
 }
 
-// Where an entry lives on disk, as shown on its page: content/a/b.md, _context/dictation/.
+// Where an entry lives on disk, as shown on its page: content/a/b.md, _context/notebook/.
 function sourcePath(slug, kind) {
   const source = sourceFor(slug);
   const rest = source.mount ? slug.slice(source.mount.length).replace(/^\//, "") : slug;

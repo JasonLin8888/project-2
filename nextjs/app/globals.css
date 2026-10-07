@@ -259,3 +259,18 @@ body:has(.print-root) { background: #ffffff; color-scheme: light; }
 
 /* Transcriptions run long: keep their line breaks and let them scroll. */
 .capture-description { margin: 8px 0 0; font-size: 13px; line-height: 1.5; white-space: pre-line; max-height: 16em; overflow-y: auto; }
+
+/* Photographed notes */
+.photo-capture { margin-top: 32px; }
+.photo-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 16px 0; }
+.photo-secondary, .photo-upload { font: inherit; font-size: 14px; color: var(--ink); background: var(--wash); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; cursor: pointer; }
+.photo-secondary:disabled { opacity: .45; cursor: default; }
+.photo-secondary:focus-visible, .photo-upload:focus-within { outline: 2px solid var(--accent); outline-offset: 3px; }
+.photo-upload { position: relative; overflow: hidden; }
+.photo-upload input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.photo-camera video { display: block; width: 100%; max-height: 65vh; object-fit: contain; background: #000; border: 1px solid var(--line); border-radius: 12px; }
+.photo-pages { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 18px; padding: 0; margin: 28px 0; list-style: none; }
+.photo-pages li { min-width: 0; border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+.photo-pages img { width: 100%; height: 220px; object-fit: contain; background: var(--wash); }
+.photo-pages li > span { display: block; margin-top: 10px; font-size: 12px; overflow-wrap: anywhere; }
+.photo-pages .photo-secondary { padding: 8px 10px; font-size: 12px; }

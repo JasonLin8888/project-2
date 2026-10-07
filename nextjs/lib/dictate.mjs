@@ -5,7 +5,7 @@ import { contextRoot } from "./content.mjs";
 
 // A dictated note goes through two models on OpenRouter: an audio model writes down what was said, then a text model
 // turns that transcript into a document. The recording and the raw transcript stay in _media/dictation/ at the repo
-// root (gitignored); the document goes to _context/dictation/, where it is a page (under /context) like any other. Settings come from
+// root (gitignored); the document goes to _context/notebook/, where it is a page (under /context) like any other. Settings come from
 // nextjs/.env.local; see .env.example.
 
 export const defaults = {
@@ -14,7 +14,7 @@ export const defaults = {
 };
 
 export const dictationRoot = path.resolve(process.cwd(), "..", "_media", "dictation");
-export const notesRoot = path.join(contextRoot, "dictation");
+export const notesRoot = path.join(contextRoot, "notebook");
 
 const env = (name) => (process.env[name] || "").trim();
 
@@ -48,7 +48,7 @@ export function slugify(text) {
   return String(text).toLowerCase().normalize("NFKD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60).replace(/-+$/, "") || "note";
 }
 
-async function chat(model, content, { apiKey, maxTokens }) {
+export async function chat(model, content, { apiKey, maxTokens }) {
   const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json", "X-Title": "tdm155ai-week-5" },
@@ -56,6 +56,7 @@ async function chat(model, content, { apiKey, maxTokens }) {
   });
   const data = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(data.error?.message || `HTTP ${response.status}`);
+  if (data.choices?.[0]?.finish_reason === "length") throw new Error("The transcription exceeded the model output limit; try fewer pages or a shorter recording.");
   const text = data.choices?.[0]?.message?.content;
   const out = (Array.isArray(text) ? text.map((part) => part.text || "").join("") : text || "").trim();
   if (!out) throw new Error("empty response");
@@ -113,17 +114,19 @@ export async function saveSidecar(id, data) {
   await writeFile(/* turbopackIgnore: true */ path.join(dictationRoot, `${id}.json`), JSON.stringify(data, null, 2) + "\n");
 }
 
-// _context/dictation/<yyyymmdd-hhmm>-<title>.md. `order` lists the newest note first; never overwrites an existing file.
-export async function writeNote({ id, date, title, description, body }) {
+// _context/notebook/<yyyymmdd-hhmm>-<title>.md. Both voice and photographs use this writer. `order` lists the newest note first; never overwrites an existing file.
+export async function writeNote({ id, date, title, description, body, source = "dictation", images = [] }) {
   await mkdir(/* turbopackIgnore: true */ notesRoot, { recursive: true });
   const minute = id.slice(0, 13);
-  const data = { title, description, eyebrow: "Dictated note", updated: date.toISOString().slice(0, 10), order: -Number(minute.replace("-", "")), dictation: `_media/dictation/${id}.wav` };
+  const data = { title, description, eyebrow: source === "photograph" ? "Photographed note" : "Dictated note", source, updated: date.toISOString().slice(0, 10), order: -Number(minute.replace("-", "")) };
+  if (source === "dictation") data.dictation = `_media/dictation/${id}.wav`;
+  if (images.length) data.images = images;
   const text = matter.stringify(`\n# ${title}\n\n${body}\n`, data);
   for (let attempt = 0; ; attempt += 1) {
     const name = `${minute}-${slugify(title)}${attempt ? `-${attempt + 1}` : ""}`;
     try {
       await writeFile(/* turbopackIgnore: true */ path.join(notesRoot, `${name}.md`), text, { flag: "wx" });
-      return { slug: `context/dictation/${name}`, file: `_context/dictation/${name}.md` };
+      return { slug: `context/notebook/${name}`, file: `_context/notebook/${name}.md` };
     } catch (error) {
       if (error.code !== "EEXIST" || attempt >= 20) throw error;
     }

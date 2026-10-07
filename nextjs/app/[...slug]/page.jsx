@@ -4,6 +4,9 @@ import { getEntries, getEntry } from "../../lib/content.mjs";
 import { SiteFooter, SiteHeader } from "../components/Chrome.jsx";
 import Markdown from "../components/Markdown.jsx";
 
+// Notebook entries are written while the app runs; always read the current files.
+export const dynamic = "force-dynamic";
+
 // Every file and folder in content/, at the same path (content/guides/setup.md is /guides/setup, the folder is
 // /guides), and in the repo's _context/ under /context (see lib/content.mjs).
 export async function generateStaticParams() {

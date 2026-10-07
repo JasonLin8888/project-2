@@ -1,33 +1,45 @@
 ---
 title: How it works
-description: From your voice to a page in _context/dictation/, in three steps.
+author: codex
+description: Voice recordings and photographs become Markdown entries in your Notebook.
 order: 1
 ---
 
 # How it works
 
-The workbook has two folders of Markdown and one tool.
+[Dictate](/dictate) and [Transcribe](/transcribe) both save Markdown documents into your [Notebook](/context/notebook).
 
-- **`content/`** at the repo root holds the docs: this page, the guides, and the week's material. `content/a/b.md` is the page `/a/b`.
-- **`_context/`** at the repo root holds the working context: notes, sources, and dictation. `_context/a/b.md` is the page `/context/a/b`.
-- **[/dictate](/dictate)** turns your voice into a note in `_context/dictation/`.
+## Dictate a note
 
-## Dictation
+1. Press record (or the space bar), talk, and press again to stop.
+2. An audio model transcribes the recording word for word.
+3. A text model removes filler and false starts, adds headings where useful, and keeps your meaning. If cleanup fails, the raw transcript is saved as the note instead.
 
-1. **Record.** On [/dictate](/dictate), press the button (or the space bar) and talk. Press it again to stop. The browser records from whichever microphone you pick.
-2. **Transcribe.** The recording goes to an audio model on OpenRouter, which writes down what you said, word for word.
-3. **Clean up.** A second model turns the transcript into a document: it takes out the false starts and filler, fixes the punctuation, gives it a title and headings, and keeps your meaning and your words where it can. It doesn't add facts you didn't say.
+The original recording and raw transcript stay in the local `_media/dictation/` folder.
 
-The result is saved as `_context/dictation/<date>-<title>.md`, with the recording and the raw transcript in `_media/dictation/` (gitignored, local only) so nothing is lost if the cleanup goes too far.
+## Photograph your notes
+
+1. Turn on the camera and take photographs, or upload JPEG, PNG, or WebP images.
+2. Check the previews. Remove unwanted images or use Move up to put the pages in order.
+3. Select Transcribe to Notebook. An image model reads the pages in that order, preserving their wording and marking unclear writing.
+
+You can send up to 12 images, at most 10 MB each and 30 MB total. Export HEIC images as JPEG before uploading. The source photographs appear under the transcription; check uncertain words against them.
+
+Photographs and their transcription records stay in `_media/notebook/`, even if the model call fails. A failed transcription keeps the selected images on screen so you can try again.
+
+## Your Notebook
+
+Each successful submission writes a new `.md` file in `_context/notebook/`, with a title, date, and source type. New notes never overwrite earlier ones. Open the Notebook to read or print the notes, or edit the Markdown files directly.
+
+The app reads and writes local files, so capture runs on the laptop hosting it. Media folders are gitignored; keep them with the Markdown if you want the photographs available later.
 
 ## Settings
 
-Both models are set in `nextjs/.env.local` (copy `.env.example`):
+Set these in `nextjs/.env.local` and restart the app after changing them:
 
 | Setting | What it does |
 | --- | --- |
-| `OPENROUTER_API_KEY` | Required for transcription and cleanup. Without it, recordings are still saved. |
-| `TRANSCRIBE_MODEL` | An OpenRouter model that accepts audio. |
-| `CLEANUP_MODEL` | Any OpenRouter text model. |
-
-Restart `pnpm dev` after editing it.
+| `OPENROUTER_API_KEY` | Required to transcribe. Without it, audio and images are saved, but no Markdown note is created. |
+| `TRANSCRIBE_MODEL` | Audio transcription model. |
+| `CLEANUP_MODEL` | Text model for cleaning up dictated notes. |
+| `PHOTO_TRANSCRIBE_MODEL` | Image-input model for photographed notes; defaults to `TRANSCRIBE_MODEL`. |
