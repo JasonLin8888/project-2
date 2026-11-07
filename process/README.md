@@ -26,7 +26,7 @@ How the video was made, from the cast to the clips. Start with the week-by-week 
 
 This section has the plans but not yet the making. Missing:
 
-- **The images.** The character sheets are in the Google Doc (three for Oliver, one each for Vanessa, Adrian, and Mio) but not on the site yet. Also missing: Mio's design rounds, the city references, and keyframes.
+- **More images.** The character sheets are on [Characters and voices](characters-and-voices.md). Still missing: Mio's earlier design rounds, the city references, and keyframes or stills from the clips.
 - **The voice tool** you generated the voices with, and whether you used music.
 - **The generation log.** The prompts for each clip in Seedance, what failed, what you retried, and how many credits it took.
 - **The edit.** What you changed in Final Cut Pro from the clip plan.

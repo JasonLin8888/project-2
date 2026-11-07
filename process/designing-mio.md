@@ -25,3 +25,5 @@ Mio is the small magical creature Oliver saves, who gives him his system. These 
 ## The result
 
 **Miozareth Aurelion, Keeper of the Azure Flame, Guardian of the Seventh Heaven.** Nickname: **Mio**.
+
+![Mio's final design: deep blue and violet, cream face, and a big curled tail, from four angles and in four moods](_images/mio-sheet.jpg)

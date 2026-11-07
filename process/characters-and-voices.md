@@ -5,7 +5,7 @@ order: 1
 source: "The “british twink mc” tab of the Google Doc"
 ---
 
-My character bible, from the **british twink mc** tab of my [inspiration doc](https://docs.google.com/document/d/17gIm47t000_5_PasGklTHhs3f8hmvAtOcnp2sxa1ZIo/edit). Each character has a description of how they look, and a voice description I used to generate their voice. In the doc, each one also has a character sheet: three for Oliver, and one each for Vanessa, Adrian, and Mio.
+My character bible, from the **british twink mc** tab of my [inspiration doc](https://docs.google.com/document/d/17gIm47t000_5_PasGklTHhs3f8hmvAtOcnp2sxa1ZIo/edit). Each character has a description of how they look, and a voice description I used to generate their voice. Each one also has a character sheet I made with ChatGPT in week 6, so the video generator would keep the design consistent from every angle.
 
 ## Oliver Ashford (Ollie)
 
@@ -16,7 +16,15 @@ My character bible, from the **british twink mc** tab of my [inspiration doc](ht
   - During healing or moments of danger, his delivery steadies: calm, attentive, and reassuring. His voice carries vulnerability without becoming persistently whiny or childish. Romantic lines are soft and sincere, with the occasional word escaping more honestly than he intended.
   - V1 meh (my note on the first version)
 
-*Character sheets: three in the doc, with Oliver in a blue sweater and in a navy hoodie, each from the front, side, back, and three-quarter angles.*
+### Character sheets
+
+Each sheet shows his face from the front, three-quarters, and side, then his full body from the front, side, back, and healing.
+
+![Oliver, version 1: blue sweater over a white collar, grey trousers](_images/oliver-sheet-1.jpg)
+
+![Oliver, version 2: the same outfit, with curlier hair and freckles](_images/oliver-sheet-2.jpg)
+
+![Oliver, alternate design: navy zip hoodie and a backpack](_images/oliver-sheet-3.jpg)
 
 In the opening, make him look pitiful through his behavior: clutching an overstuffed bag, trying to straighten his clothes, and struggling to keep his voice steady.
 
@@ -24,7 +32,7 @@ In the opening, make him look pitiful through his behavior: clutching an overstu
 
 - Brunette hair, athletic build, distinctive face, and one combat outfit that also works at the office
 
-*Character sheet: one in the doc, in a white blouse and dark vest, from four angles and in a sword stance.* My note on it: "Not my fave but itll have to do."
+![Vanessa: white blouse and dark vest, with a sword stance. My note: "Not my fave but itll have to do."](_images/vanessa-sheet.jpg)
 
 ### Her voice (draft, for me to confirm)
 
@@ -51,13 +59,15 @@ ChatGPT's script calls him "Ethan Chen". I chose **Adrian Ouyang**.
   - Around Oliver, his tone becomes softer and more intimate, with understated teasing and an audible smile. He gives familiar nicknames an affectionate emphasis. During his confession, a slight hesitation reveals how much Oliver’s answer matters to him.
   - Keep the delivery natural and conversational. The gravel is a light texture, without forced growling, excessive vocal fry, or constant breathiness.
 
-*Character sheet: one in the doc, all in black, from the front, side, back, and three-quarter angles.*
+![Adrian: all black with layered chains, in eight poses from portrait to low angle](_images/adrian-sheet.jpg)
 
 ## Mio
 
 **Miozareth Aurelion, Keeper of the Azure Flame, Guardian of the Seventh Heaven**
 
-*Character sheet: one in the doc, a turnaround of Mio in the celestial royal palette (deep blue and violet with a cream face), from eight angles. See [Designing Mio](designing-mio.md) for how the design got there.*
+![Mio's final design: deep blue and violet, cream face, and a big curled tail, from four angles and in four moods](_images/mio-sheet.jpg)
+
+See [Designing Mio](designing-mio.md) for how the design got there.
 
   - A small magical creature with a youthful, gender-ambiguous voice. High-pitched but pleasant and comfortable to hear, with a light, clear tone, a faint airy edge, and an occasional tiny squeak when excited.
   - Speaks clear, conversational American English with a bouncy rhythm, playful pitch changes, and crisp consonants. Cheeky, mischievous, and completely confident in his own importance. He delivers grand declarations with absolute sincerity and sounds mildly offended when humans fail to appreciate his greatness.
