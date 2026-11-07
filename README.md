@@ -9,7 +9,7 @@ The site's homepage shows the finished video ([watch on YouTube](https://youtube
 | **Brainstorming** | Early ideas, the concepts I dropped, and the conversation where the plot took shape |
 | **Inspiration** | The reels, AI dramas, anime, and images I studied, with my notes |
 | **The Process** | Week by week, the characters and voices, the script, the clip plan, and the production plan |
-| **Reflection** | What I learned, and what the tools contributed compared with what I did |
+| **Reflection** | A video reflection: what I learned, and what the tools contributed compared with what I did |
 
 ## Run it
 

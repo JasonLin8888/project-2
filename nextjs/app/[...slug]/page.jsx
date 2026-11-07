@@ -67,7 +67,7 @@ export default async function EntryPage({ params }) {
         <Breadcrumbs trail={trail} title={entry.title} />
         <header className="article-heading">
           {isAiGenerated(entry) && <p className="ai-badge">AI-generated</p>}
-          <p className="eyebrow">{entry.kind === "folder" ? `Folder · ${entry.count} document${entry.count === 1 ? "" : "s"}` : entry.eyebrow}</p>
+          <p className="eyebrow">{entry.kind === "folder" ? (entry.count ? `Folder · ${entry.count} document${entry.count === 1 ? "" : "s"}` : "Folder") : entry.eyebrow}</p>
           <h1>{entry.title}</h1>
           {entry.description && <p className="lede">{entry.description}</p>}
           {entry.updated && <p className="updated">Updated {entry.updated}</p>}
@@ -94,7 +94,7 @@ export default async function EntryPage({ params }) {
             )}
             {entry.content.trim() && <article className={`prose folder-intro colors-${entry.colors}`}><Markdown doc={entry} /></article>}
             {entry.listHeading && <h2 className="folder-list-heading">{entry.listHeading}</h2>}
-            <FolderList folder={entry} />
+            {(entry.count > 0 || !entry.content.trim()) && <FolderList folder={entry} />}
           </>
         ) : (
           <NoteColors slug={entry.slug} initial={entry.colors} diagramHref={entry.slug.startsWith("notebook/") ? `/diagram?to=${encodeURIComponent(entry.slug)}` : ""}>

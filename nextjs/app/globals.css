@@ -478,3 +478,8 @@ body { background: var(--paper); color: var(--ink); }
   .behind-arrow { opacity: 1; transform: none; }
   .site-header nav { gap: 6px 18px; }
 }
+
+/* YouTube Shorts inside a page: vertical, framed like the homepage film. */
+.video-embed:has(.video-ratio-vertical) { margin: 8px 0 32px; }
+.video-ratio-vertical { width: min(100%, 360px, calc(78vh * 9 / 16)); aspect-ratio: 9 / 16; margin: 12px auto 0; border: 0; border-radius: 12px; background: #141b2e; outline: 1px solid var(--gold); outline-offset: 10px; }
+.video-embed:has(.video-ratio-vertical) .media-caption { margin-top: 22px; text-align: center; }

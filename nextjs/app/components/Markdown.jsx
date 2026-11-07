@@ -41,7 +41,7 @@ function Media({ src, alt = "" }) {
   if (youtube || (/^youtube\s*:/i.test(alt) && youtube)) {
     return (
       <span className="media-embed video-embed">
-        <span className="video-ratio"><iframe src={youtube} title={label || "Embedded video"} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /></span>
+        <span className={/youtube\.com\/shorts\//.test(src) ? "video-ratio video-ratio-vertical" : "video-ratio"}><iframe src={youtube} title={label || "Embedded video"} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /></span>
         {label && <span className="media-caption">{label}</span>}
       </span>
     );
