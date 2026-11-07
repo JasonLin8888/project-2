@@ -16,7 +16,7 @@ The site's homepage shows the finished video ([watch on YouTube](https://youtube
 You need [Node.js](https://nodejs.org/) 22 or later and [pnpm](https://pnpm.io/installation).
 
 ```sh
-git clone <this repository's URL>
+git clone https://github.com/JasonLin8888/project-2.git
 cd project-2/nextjs
 pnpm install
 pnpm dev
