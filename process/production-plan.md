@@ -1,7 +1,7 @@
 ---
 title: Production plan
 description: "The ten steps from finished plot to submitted package, in priority order."
-order: 5
+order: 7
 source: "The “to-do” tab of the Google Doc"
 ---
 

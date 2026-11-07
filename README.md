@@ -8,7 +8,7 @@ The site's homepage shows the finished video ([watch on YouTube](https://youtube
 | --- | --- |
 | **Brainstorming** | Early ideas, the concepts I dropped, and the conversation where the plot took shape |
 | **Inspiration** | The reels, AI dramas, anime, and images I studied, with my notes |
-| **The Process** | Week by week, the characters and voices, the script, the clip plan, and the production plan |
+| **The Process** | Week by week, the characters and voices, the script, the clip plan, the video prompts, and the edit |
 | **Reflection** | A video reflection: what I learned, and what the tools contributed compared with what I did |
 
 ## Run it
@@ -42,8 +42,9 @@ Pages marked as written with ChatGPT or Claude say so at the top. Everything els
 
 ## Tools I used for the project
 
-- **Video generation:** Seedance 2.5, on Higgsfield
+- **Video, dialogue, voices, and music:** Seedance 2.5, on Higgsfield
 - **Editing:** Final Cut Pro
+- **Captions, the ending "ding", and its glow effect:** Claude
 - **Character designs:** ChatGPT's image generation
 - **Script and planning:** ChatGPT and Claude
 

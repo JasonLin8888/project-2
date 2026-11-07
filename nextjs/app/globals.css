@@ -483,3 +483,7 @@ body { background: var(--paper); color: var(--ink); }
 .video-embed:has(.video-ratio-vertical) { margin: 8px 0 32px; }
 .video-ratio-vertical { width: min(100%, 360px, calc(78vh * 9 / 16)); aspect-ratio: 9 / 16; margin: 12px auto 0; border: 0; border-radius: 12px; background: #141b2e; outline: 1px solid var(--gold); outline-offset: 10px; }
 .video-embed:has(.video-ratio-vertical) .media-caption { margin-top: 22px; text-align: center; }
+
+/* Prompts (```prompt blocks): keep the line breaks but wrap long lines, in the body font. */
+.prose pre:has(code.language-prompt) { white-space: pre-wrap; overflow-wrap: anywhere; padding: 22px 24px; border-color: var(--line); border-left: 3px solid var(--gold); border-radius: 0 10px 10px 0; background: var(--card); font-family: inherit; font-size: 15px; line-height: 1.7; }
+.prose pre code.language-prompt { font-family: inherit; white-space: inherit; }

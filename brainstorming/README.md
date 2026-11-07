@@ -10,9 +10,3 @@ How the project got from "an AI short drama" to Oliver's story: the ideas I kept
 1. **[Early ideas](early-ideas.md)**: my notes before there was a plot, the dance-tool project I almost made instead, and the rule I set myself.
 2. **[First concept: the girl and the ink dragon](first-concept-ink-dragon.md)**: the quiet, emotional fantasy I started with.
 3. **[Finding the plot](finding-the-plot.md)**: ChatGPT's first suggestions, my pushback, and the tragic-BL direction.
-
-## Still to add
-
-- **Why the ink-dragon concept and the dance tool were dropped**, in a sentence or two each.
-- **How "Finding the plot" became the final plot.** ChatGPT's last answer is about a breakup between two men. The final plot opens with a cheating girlfriend instead. What changed your mind?
-- **The "two office-hours additions"** your to-do list mentions: what were they?

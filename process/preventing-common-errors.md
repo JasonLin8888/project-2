@@ -1,7 +1,7 @@
 ---
 title: Preventing common errors
 description: Splitting the production into small, redoable pieces, and keeping characters consistent across generations.
-order: 6
+order: 8
 source: "Tab 2 (“Preventing common errors I see”) of the Google Doc “TDM155AI - Media Inspiration Board”, exported 2026-10-07."
 ---
 

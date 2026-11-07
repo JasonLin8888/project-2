@@ -34,20 +34,12 @@ In the opening, make him look pitiful through his behavior: clutching an overstu
 
 ![Vanessa: white blouse and dark vest, with a sword stance. My note: "Not my fave but itll have to do."](_images/vanessa-sheet.jpg)
 
-### Her voice (draft, for me to confirm)
+### Her voice
 
-The voice under Vanessa's name in the doc doesn't fit her. It describes someone who is sweet on the surface but cutting, and dismissive of Oliver's distress, which is Celeste, the ex. This is Claude's draft of a voice that fits Vanessa's role in the script, in the same format as the others:
+The voice I gave her in the [video prompts](video-prompts.md):
 
-- An adult American woman in her mid-twenties with a clear, medium-low voice, firm projection, and crisp, efficient articulation. Speaks contemporary American English with natural authority, like someone used to giving orders in the field.
-- In combat her delivery is short and commanding, with clipped phrases and no wasted words ("Ashford. Stay close."). Under pressure she gets steadier and louder, never shrill.
-- Around Oliver, the edge softens into dry, direct warmth. She doesn't flirt with words so much as with plain statements and pauses that last a beat too long.
-- In her confession, her confidence holds but slows: a small breath before the line, then she says it straight. Keep it grounded and sincere, without breathiness or melodrama.
-
-### The voice in the doc (probably Celeste's)
-
-- An adult woman in her mid-twenties with a smooth, medium-pitched voice, bright clarity, and meticulously crisp articulation. Speaks contemporary American English with polished, unhurried confidence.
-- Her delivery has a surface sweetness that turns cutting through emphasis and timing. She makes dismissive remarks sound casually obvious, as though Oliver's distress is a tedious inconvenience. A faint smile is audible in her most hurtful lines.
-- When challenged, the sweetness disappears and her voice becomes clipped and cold. Keep the performance believable and controlled, with occasional theatrical relish rather than constant sneering or shouting.
+- Medium-low American voice, lightly husky, clear and decisive; softer around Oliver.
+- In the confession: direct and sincere.
 
 ## Adrian Ouyang, the childhood friend
 
