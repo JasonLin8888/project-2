@@ -62,7 +62,7 @@ export default async function EntryPage({ params }) {
 
   return (
     <>
-      <SiteHeader />
+      <SiteHeader current={entry.slug.split("/")[0]} />
       <main id="main" className="article-shell">
         <Breadcrumbs trail={trail} title={entry.title} />
         <header className="article-heading">

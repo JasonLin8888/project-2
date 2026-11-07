@@ -4,13 +4,21 @@ import matter from "gray-matter";
 import { colorModes } from "./palette.mjs";
 
 export const site = {
-  title: "TDM 155AI week 5",
-  label: "The Notebook",
+  title: "Project 2",
+  label: "",
   term: "TDM 155AI · Making Stuff in the Age of AI · Fall 2026",
   // The home page's heading and the line under it.
-  heading: "The Notebook",
-  deck: "Research, notetaking, writing & creating in the age of AI",
+  heading: "Project 2",
+  deck: "",
 };
+
+// The four sections: folders at the repo root, the tabs in the header, and the boxes on the home page, in this order.
+export const sections = [
+  { slug: "brainstorming", title: "Brainstorming" },
+  { slug: "inspiration", title: "Inspiration" },
+  { slug: "process", title: "The Process" },
+  { slug: "reflection", title: "Reflection" },
+];
 
 // Two folders of Markdown at the repo root (beside nextjs/), each at its own address: docs/a/b.md is /docs/a/b. Every
 // file is a page, and every folder is a page too, showing its README.md (if any) above a list of what it holds. Names
@@ -21,9 +29,34 @@ export const site = {
 const repoRoot = path.join(process.cwd(), "..");
 // Keep these paths literal so the deployment traces only the published folders.
 export const sources = [
+  { mount: "brainstorming", root: path.join(repoRoot, "brainstorming") },
+  { mount: "inspiration", root: path.join(repoRoot, "inspiration") },
+  { mount: "process", root: path.join(repoRoot, "process") },
+  { mount: "reflection", root: path.join(repoRoot, "reflection") },
+  // Week 5's folders, still reachable by address but not linked from the header.
   { mount: "docs", root: path.join(repoRoot, "docs") },
   { mount: "notebook", root: path.join(repoRoot, "notebook") },
 ];
+
+// The home page's title, video, and description: home.md at the repo root.
+export async function getHome() {
+  let parsed = { data: {}, content: "" };
+  try {
+    parsed = await parse(path.join(repoRoot, "home.md"));
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+  }
+  const { data, content } = parsed;
+  return {
+    title: typeof data.title === "string" && data.title ? data.title : site.heading,
+    video: typeof data.video === "string" ? data.video.trim() : "",
+    tagline: typeof data.tagline === "string" ? data.tagline.trim() : "",
+    kicker: typeof data.kicker === "string" ? data.kicker.trim() : "",
+    content,
+    slug: "",
+    dir: "",
+  };
+}
 export const notebookRoot = path.join(repoRoot, "notebook");
 
 function sourceFor(slug) {

@@ -1,92 +1,52 @@
-# tdm155ai-week-5
+# Project 2
 
-TDM 155AI (*Making Stuff in the Age of AI*), week 5: **The Notebook** — research, notetaking, writing, creating, AI. Class meets Wednesday 2026-10-07. The Learning Lab's theme that week is AI for research, dramaturgy, and context packs.
+My final project for TDM 155AI (*Making Stuff in the Age of AI*, Fall 2026): an AI short drama, and a website that documents how I made it.
 
-This repo is the week's **workbook**: a local Next app that renders two folders of Markdown (our docs and the student's notebook), with lightweight dictation and photo transcription. It is private for now, and nested in `ll-26-27/ll-week-5` at `apps/tdm155ai-week-5/`. Planning stays in the mk-27 workbook.
+The site's homepage shows the finished video ([watch on YouTube](https://youtube.com/shorts/O3zilWkXLdU)) with a short description, and links to four sections:
 
-Two folders of Markdown at the repo root, each a section of the site at the same path (`docs/course-docs/how-it-works.md` is `/docs/course-docs/how-it-works`). Every folder is a page showing its `README.md` above a list of what it holds; names starting with `_` or `.` are skipped.
-
-- **`docs/`**: what we prepared for the week, in four parts, plus the student's inspiration board. `docs/README.md` can set `print_set:` for `/print/set`.
-  - **`docs/course-docs/`**: the Unit 2 project (`unit-2-project.md`, from week 4's draft) and how the workbook works.
-  - **`docs/how-to/`**: Claude's ideas on how to make the student's project.
-  - **`docs/ai-research/`**: essays and research written with AI, starting with `notetaking-and-workbooks/`. Every page here carries an "AI-generated" label.
-  - **`docs/readings/`**: the reading still to do.
-  - **`docs/inspiration/`**: the student's media inspiration board for an AI short drama, copied from both tabs of a Google Doc.
-- **`notebook/`**: the student's own work. Dictated and photographed notes are written here, one file each, named `<yyyymmdd-hhmm>-<title>.md`, newest first; anything else added here is a page too.
-- **`_media/dictation/`**: gitignored, local only. Each recording (`<id>.wav`, 16 kHz mono) with a `<id>.json` beside it holding the raw transcript, the models, and which note it became.
-- **`utils/`**: the image and text generation scripts from weeks 2 and 4, for OpenRouter, fal, and HUIT. Run them from the repo root with the keys in the root `.env`; see [utils/README.md](utils/README.md). What they make lands in `output/` (gitignored).
-- **`nextjs/`**: the app: forced dark, Inter, with a red accent; `/print` is always light.
-
-`AGENTS.md` (read by Claude through `CLAUDE.md`) tells a student's AI assistant what the repo is for, the week 5 process (an AI-enhanced notebook for the Unit 2 project, starting with how-to docs in `docs/how-to/`), where things go, and to mark what it writes `author: claude`.
-
-Frontmatter (all optional): `title`, `description`, `eyebrow`, `updated`, `order`, `colors`. Each folder's README sets `step:` (with `subtitle`, and optionally `tool`, `tool_title`), which makes it a numbered step on the home page.
-
-| URL | What |
+| Section | What's in it |
 | --- | --- |
-| `/` | The two folders as steps, the tools, and a map of everything |
-| `/docs/...`, `/notebook/...` | Any folder or document in `docs/` or `notebook/` |
-| `/dictate` | Record a note (button or space bar), with an optional line of context. The recording is saved, transcribed by `TRANSCRIBE_MODEL`, cleaned up by `CLEANUP_MODEL`, and written to `notebook/`. |
-| `/transcribe` | Photograph pages with the camera or upload images; a faithful transcription is written to `notebook/` (see below). |
-| `/diagram` | Draw a Mermaid diagram from a template (steps, mind map, story arc, characters, timeline, conversation) with a live preview; save it as a new note in `notebook/`, or as a new `##` section at the end of a note (`?to=notebook/<note>`, linked from every note as "+ Add a diagram"). |
-| `/print` | Light print versions on Letter (the one light surface): put `/print` in front of any page's address, or `/print/all` |
+| **Brainstorming** | Early ideas, the concepts I dropped, and the conversation where the plot took shape |
+| **Inspiration** | The reels, AI dramas, anime, and images I studied, with my notes |
+| **The Process** | Week by week, the characters and voices, the script, the clip plan, and the production plan |
+| **Reflection** | What I learned, and what the tools contributed compared with what I did |
 
 ## Run it
 
-Use Node 22 or later (`nextjs/.node-version`).
+You need [Node.js](https://nodejs.org/) 22 or later and [pnpm](https://pnpm.io/installation).
 
 ```sh
-cd nextjs
+git clone <this repository's URL>
+cd project-2/nextjs
 pnpm install
 pnpm dev
 ```
 
-Then open the localhost address it prints. Recording needs Chrome or Safari on the same machine (the microphone requires localhost or HTTPS).
+Then open the address it prints, usually <http://localhost:3000>.
 
-Copy `nextjs/.env.example` to `nextjs/.env.local` and set `OPENROUTER_API_KEY` (`FAL_API_KEY` and `HUIT_API_KEY` are there too, unused by the app so far). The root `.env.example` (copy to `.env`) has the same three keys for scripts run from the repo root. Without it, `/dictate` and `/transcribe` ask for the user's own OpenRouter key, keep it in that browser (localStorage), and send it with each request in an `X-OpenRouter-Key` header; the server uses it for that request only and never writes it to disk. With no key at all, recordings and photographs are saved but not transcribed. The models default to `google/gemini-3.8-flash` (transcription; it has to accept audio) and `anthropic/claude-sonnet-5.5` (cleanup). Restart `pnpm dev` after editing it.
+No API keys are needed to read the site.
 
-The app reads and writes the local disk, so it is built to run on a laptop. On Vercel (root directory `nextjs`) the `docs/` pages and `/print` work, but dictation and transcription can't be saved.
+## Where things are
 
-## How a recording becomes a note
+The site is built from Markdown files at the top of the repository. Each file is a page at the same path: `process/clip-plan.md` is `/process/clip-plan`, and each folder's `README.md` is that folder's page.
 
-1. The browser records with `MediaRecorder`, then decodes and resamples the audio to 16 kHz mono WAV, which every audio model on OpenRouter accepts.
-2. `/api/dictate` saves the WAV to `_media/dictation/` first, so a failed model call never loses it.
-3. The audio model transcribes it word for word (`lib/dictate.mjs`).
-4. The text model turns the transcript into a titled Markdown document, keeping the speaker's words and adding nothing they didn't say. If this step fails, the note is written with the raw transcript.
+| Path | What |
+| --- | --- |
+| `home.md` | The homepage: title, tagline, video link, and description |
+| `brainstorming/`, `inspiration/`, `process/`, `reflection/` | The four sections |
+| `nextjs/` | The website code (Next.js) |
+| `docs/`, `notebook/` | Left over from the week 5 workbook this site started from; not linked from the site |
+| `utils/` | Scripts for generating text and images, from the course |
+
+Pages marked as written with ChatGPT or Claude say so at the top. Everything else is my own writing.
+
+## Tools I used for the project
+
+- **Video generation:** Seedance 2.5, on Higgsfield
+- **Editing:** Final Cut Pro
+- **Character designs:** ChatGPT's image generation
+- **Script and planning:** ChatGPT and Claude
 
 ## Where this came from
 
-Created 2026-10-04 with a README and `content/`. On 2026-10-07 it became a workbook app: the docs reader and dictation come from `ll-26-27/mk-video-note-machine` (`6edef79`, without `/interview`), and the `/context` mount from `ll-26-27/ll-week-5-interface` (`27c839a`), pointed at this repo's own `_context/` instead of the parent's. The `/capture` route was renamed `/dictate`, and notes initially went to `_context/dictation/` instead of `content/notes/`. Later that day `content/` moved from `nextjs/` to the repo root.
-
-## Notebook: voice and photographs (2026-10-07)
-
-`/dictate` and `/transcribe` both write new Markdown files into `notebook/`, displayed at `/notebook`. The old `/context/notebook` and `/context/dictation` addresses redirect there.
-
-`/transcribe` accepts live webcam photographs or uploaded JPEG, PNG, and WebP images, with previews, removal, and page ordering. It preserves the photographed wording, marks illegible text, and embeds the source photographs below the transcription. Originals and the model output are kept in the gitignored `_media/notebook/` folder before a note is written. Set `PHOTO_TRANSCRIBE_MODEL` to an image-input OpenRouter model; it falls back to `TRANSCRIBE_MODEL`.
-
-Limits: 12 images, 10 MB per image, 30 MB total. The API rejects other formats and uses generated filenames. Both capture flows require a local writable filesystem; a static deployment does not persist notebook entries.
-
-## Docs and Notebook (2026-10-07)
-
-Later on 2026-10-07 `content/` and `_context/` were replaced by three folders split by who wrote them (Marlon): `docs/` (our instructions, from `content/README.md` and `content/guides/`), `ai/` (AI-generated essays, from `content/notetaking-and-workbooks/`), and `notebook/` (the student's own work, from `_context/notebook/`). The same day `ai/` folded back into `docs/` (Marlon: no "ai" folder or homepage section): `docs/ai-research/` (from `ai/`), `docs/readings/` (reading still to do), `docs/how-to/` (Claude's ideas for the project), and `docs/course-docs/` (from `docs/guides/`, plus the Unit 2 project). Old addresses (`/guides/...`, `/docs/guides/...`, `/ai/...`, `/notetaking-and-workbooks/...`, `/context/...`) redirect to the new ones.
-
-## Homepage Notebook wink (2026-10-07)
-
-The homepage links to Notebook with a small cinematic joke. Its discreet `gosling` button mounts the supplied YouTube video as a looping, muted, viewport-filling background behind the page. Sound on/off, a close button, and Escape control the detour. Closing it or leaving the page removes the iframe and stops playback. No player is loaded before the button is pressed. Embed parameters follow [YouTube’s player documentation](https://developers.google.com/youtube/player_parameters).
-
-The background now uses the unletterboxed video `jefNSYYFm5w`, with Sun mode (0:33–2:12 / 33–132 seconds) and Rain mode (2:29–4:09 / 149–249 seconds). The mode toggle and Sound on/off sit beside `gosling`. Switching modes jumps to the selected section, and the IFrame Player API reloads that same bounded section at the end; native YouTube playlist looping restarts at 0:00. The cinema-wide footage is still contained inside YouTube’s 16:9 player, so cover sizing crops the player’s empty bands and follows the viewport container for portrait, landscape, and ultrawide screens.
-
-For the brightness preview, the background’s dark green-black overlay was changed from 63% opacity to 0% on 2026-10-07.
-
-## GitHub-backed Vercel deployment
-
-Live since 2026-10-07: [tdm155ai-week-5.vercel.app](https://tdm155ai-week-5.vercel.app). The private `tdm155ai/tdm155ai-week-5` GitHub repository is connected to `process-blacks-projects` on Vercel, with `main` as the production branch. Project root directory: `nextjs`; framework: Next.js; package manager: pnpm. Include files outside the root directory so the build and reader can access `docs/` and `notebook/`. Both folders are included in Next’s file tracing.
-
-Pushes to `main` trigger production builds. For this private repository, commits must use a GitHub identity with access to the Vercel team. The repo uses the same identity as week 4: `Process Black <193248099+process-black@users.noreply.github.com>`; commits authored as `mkuzmick` were blocked by Vercel. Do not upload local `.env` files or copy API keys into project settings: the app can ask users for their own OpenRouter key.
-
-The hosted reader, print pages, and background video work from repository content. The capture tools currently save recordings, photographs, and Markdown to the local filesystem, so run those on the laptop; Vercel needs a persistent-storage change before online captures can be kept in the notebook.
-
-## Color-coded notes and diagrams (2026-10-07)
-
-`colors:` in a document's frontmatter (or a folder README's, inherited by everything below it) color-codes the page: `levels` gives `##`, `###`, `####`, and body text their own colors; `sections` wraps each `##` section in a panel and alternates teal and amber between topics; `off` is plain. `notebook/` defaults to `levels` and `docs/inspiration/` to `sections`. A **Colors** switch above every document previews the other modes in that browser only (localStorage). The palette is in `nextjs/lib/palette.mjs` and repeated as `--c1`–`--c4` in `globals.css`, with darker inks under `/print`.
-
-Any ```` ```mermaid ```` block is drawn as a diagram in the browser (`app/components/Diagram.jsx`, Mermaid 12): straight lines, thin strokes, the note colors, and `:::c1`–`:::c4` / `:::muted` classes predefined for flowcharts. A broken diagram shows its error and source instead of breaking the page. Dictation's cleanup prompt adds a diagram when the speaker describes or asks for one, and photo transcription redraws hand-drawn diagrams as Mermaid. See `docs/course-docs/colors-and-diagrams.md`.
+This site started as a copy of the course's week 5 workbook app (`tdm155ai-week-5`), redesigned and refilled for this project.

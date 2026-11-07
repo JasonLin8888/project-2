@@ -1,110 +1,82 @@
 import Link from "next/link";
-import { getRoot, site } from "../lib/content.mjs";
+import { getHome, getRoot, sections, site } from "../lib/content.mjs";
 import { SiteFooter, SiteHeader } from "./components/Chrome.jsx";
 import Markdown from "./components/Markdown.jsx";
-import NotebookWink from "./components/NotebookWink.jsx";
 
 export const dynamic = "force-dynamic";
 
-// The tools that sit beside the docs.
-const tools = [
-  { href: "/dictate", title: "Dictate", copy: "Press record and talk. Your words become a Markdown note in Notebook." },
-  { href: "/transcribe", title: "Transcribe", copy: "Photograph your notes or upload images. Save a faithful transcription to Notebook." },
-  { href: "/diagram", title: "Diagram", copy: "Draw a flowchart, mind map, or timeline with clean lines, and add it to a note." },
-  { href: "/print", title: "Print", copy: "Any page or folder on light paper: put /print in front of its address." },
-];
+const numerals = ["I", "II", "III", "IV", "V", "VI"];
 
-function ContextMap({ folders }) {
+// A YouTube or Vimeo link becomes an embedded player; anything else is treated as a video file.
+function embedUrl(url) {
+  const youtube = url.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
+  if (youtube) return `https://www.youtube-nocookie.com/embed/${youtube[1]}`;
+  const vimeo = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if (vimeo) return `https://player.vimeo.com/video/${vimeo[1]}`;
+  return "";
+}
+
+function FinishedVideo({ src, title }) {
+  // YouTube Shorts are vertical (9:16); everything else is shown widescreen.
+  const vertical = !src || /youtube\.com\/shorts\//.test(src);
+  const frame = `film-frame${vertical ? " film-frame-vertical" : ""}`;
+  if (!src) {
+    return (
+      <div className={`${frame} film-frame-empty`}>
+        <p>Add the video link to <code>home.md</code></p>
+      </div>
+    );
+  }
+  const embed = embedUrl(src);
   return (
-    <ul className="context-map">
-      {folders.map((folder) => (
-        <li key={folder.slug}>
-          <Link href={folder.href} className="context-row">
-            <code>{folder.source}</code>
-            <strong>{folder.title}</strong>
-            <span className="context-count">{folder.count} doc{folder.count === 1 ? "" : "s"}</span>
-            {folder.description && <span className="context-note">{folder.description}</span>}
-          </Link>
-          {folder.folders.length > 0 && <ContextMap folders={folder.folders} />}
-        </li>
-      ))}
-    </ul>
+    <div className={frame}>
+      {embed ? (
+        <iframe src={embed} title={title} allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowFullScreen />
+      ) : (
+        <video src={src} controls playsInline preload="metadata" />
+      )}
+    </div>
   );
 }
 
 export default async function Home() {
-  const root = await getRoot();
-  // Folders whose README has `step:` in its frontmatter become numbered steps; everything else is in the map.
-  const steps = root.folders.filter((folder) => folder.step).sort((a, b) => a.step - b.step);
-  const docs = root.docs;
+  const [home, root] = await Promise.all([getHome(), getRoot()]);
+  const vertical = !home.video || /youtube\.com\/shorts\//.test(home.video);
+  const boxes = sections.map((section) => {
+    const folder = root.folders.find((entry) => entry.slug === section.slug);
+    return { ...section, href: `/${section.slug}`, summary: folder?.subtitle || folder?.description || "" };
+  });
 
   return (
     <>
       <SiteHeader />
-      <main id="main">
-        <section className="hero hero-compact" aria-labelledby="site-title">
-          <p className="eyebrow">{site.label} · {site.term}</p>
-          <h1 id="site-title">{root.title === "Home" ? site.title : root.title}</h1>
-          {root.description && <p className="hero-deck">{root.description}</p>}
-          {root.content.trim() && <article className="prose hero-intro"><Markdown doc={root} /></article>}
-          <NotebookWink />
-        </section>
-
-        {steps.length > 0 && (
-          <section className="steps" aria-label="Steps">
-            {steps.map((step) => (
-              <article className="step" key={step.slug}>
-                <Link href={step.href} className="step-main">
-                  <span className="step-number">{String(step.step).padStart(2, "0")}</span>
-                  <span className="step-title">{step.title} <span aria-hidden="true">→</span></span>
-                  {step.subtitle && <span className="step-subtitle">{step.subtitle}</span>}
-                  <span className="step-copy">{step.description}</span>
-                </Link>
-                {step.tool && (
-                  <Link href={step.tool} className="step-tool">
-                    <span className="eyebrow">Open the tool</span>
-                    <strong>{step.toolTitle} →</strong>
-                  </Link>
-                )}
-              </article>
-            ))}
-          </section>
-        )}
-
-        <section className="tools" aria-label="Tools">
-          {tools.map((tool) => (
-            <Link href={tool.href} className="tool-card" key={tool.href}>
-              <span className="eyebrow">{tool.href}</span>
-              <strong>{tool.title} <span aria-hidden="true">→</span></strong>
-              <span>{tool.copy}</span>
-            </Link>
-          ))}
-        </section>
-
-        <section className="home-section" id="docs" aria-labelledby="docs-title">
-          <header className="section-heading">
-            <p className="eyebrow">The map</p>
-            <h2 id="docs-title">What's here</h2>
-            <p>Everything here is Markdown in two folders at the repo root: <Link href="/docs"><code>docs/</code></Link> (readings, research, and instructions) and <Link href="/notebook"><code>notebook/</code></Link> (your own work, where dictated and photographed notes land). Every folder and document has a page; new files show up on refresh, and images beside a document show in it.</p>
-          </header>
-          <div className="ai-body">
-            {root.folders.length > 0 && <ContextMap folders={root.folders} />}
-            {docs.length > 0 && (
-              <ul className="context-map context-docs">
-                {docs.map((doc) => (
-                  <li key={doc.slug}>
-                    <Link href={doc.href} className="context-row">
-                      <code>{doc.source}</code>
-                      <strong>{doc.title}</strong>
-                      <span className="context-count">{doc.eyebrow}</span>
-                      {doc.description && <span className="context-note">{doc.description}</span>}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-            {root.count === 0 && <p className="empty-state">Nothing here yet. Add a Markdown file to <code>docs/</code> or <code>notebook/</code>.</p>}
+      <main id="main" className="home">
+        <section className={`film${vertical ? " film-vertical" : ""}`} aria-labelledby="site-title">
+          <div className="film-copy">
+            <p className="kicker">{home.kicker || site.term}</p>
+            <h1 id="site-title">{home.title}</h1>
+            {home.tagline && <p className="film-tagline">{home.tagline}</p>}
+            <span className="gold-rule" aria-hidden="true" />
+            {home.content.trim() && <div className="film-description"><Markdown doc={home} /></div>}
           </div>
+          <FinishedVideo src={home.video} title={home.title} />
+        </section>
+
+        <section className="behind" aria-labelledby="behind-title">
+          <header className="behind-heading">
+            <h2 id="behind-title">Behind the film</h2>
+            <p>How it was made, in four parts</p>
+          </header>
+          <nav className="behind-grid" aria-label="Sections">
+            {boxes.map((box, index) => (
+              <Link href={box.href} className="behind-card" key={box.slug}>
+                <span className="behind-numeral" aria-hidden="true">{numerals[index]}</span>
+                <strong>{box.title}</strong>
+                {box.summary && <span className="behind-summary">{box.summary}</span>}
+                <span className="behind-arrow" aria-hidden="true">→</span>
+              </Link>
+            ))}
+          </nav>
         </section>
       </main>
       <SiteFooter />

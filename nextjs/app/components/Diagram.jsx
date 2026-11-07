@@ -92,7 +92,7 @@ export default function Diagram({ source, label = "Diagram" }) {
 
   useEffect(() => {
     let cancelled = false;
-    const theme = box.current?.closest(".print-root") ? "light" : "dark";
+    const theme = "light";
     const text = source.trim();
     if (!text) { setState({ svg: "", error: "" }); return; }
     // Mermaid has one global configuration, so render one diagram at a time.

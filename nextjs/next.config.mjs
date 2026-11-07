@@ -16,12 +16,14 @@ export default {
       { source: "/docs/guides/:path*", destination: "/docs/course-docs/:path*", permanent: false },
       { source: "/notetaking-and-workbooks/:path*", destination: "/docs/ai-research/notetaking-and-workbooks/:path*", permanent: false },
       { source: "/ai/:path*", destination: "/docs/ai-research/:path*", permanent: false },
+      { source: "/docs/inspiration/:path*", destination: "/inspiration/:path*", permanent: false },
+      { source: "/docs/inspiration", destination: "/inspiration", permanent: false },
     ];
   },
   allowedDevOrigins: ["127.0.0.1", "localhost", "*.local"],
   turbopack: { root: path.resolve(appRoot, "..") },
   outputFileTracingRoot: path.resolve(appRoot, ".."),
   outputFileTracingIncludes: {
-    "/*": ["../docs/**/*", "../notebook/**/*"],
+    "/*": ["../home.md", "../brainstorming/**/*", "../inspiration/**/*", "../process/**/*", "../reflection/**/*", "../docs/**/*", "../notebook/**/*"],
   },
 };

@@ -1,20 +1,19 @@
 import Link from "next/link";
-import { site } from "../../lib/content.mjs";
+import { sections, site } from "../../lib/content.mjs";
 
-// `current` marks the tool page you're on: "dictate", "transcribe", "diagram", or nothing.
+// `current` is the section you're in ("brainstorming", "inspiration", "process", "reflection"), or nothing.
 export function SiteHeader({ current = "" }) {
   return (
     <header className="site-header">
       <Link className="wordmark" href="/">
-        {site.title} <span>{site.label}</span>
+        {site.title}{site.label && <span>{site.label}</span>}
       </Link>
       <nav aria-label="Main navigation">
-        <Link href="/docs">Docs</Link>
-        <Link href="/notebook">Notebook</Link>
-        <Link href="/dictate" aria-current={current === "dictate" ? "page" : undefined}>Dictate</Link>
-        <Link href="/transcribe" aria-current={current === "transcribe" ? "page" : undefined}>Transcribe</Link>
-        <Link href="/diagram" aria-current={current === "diagram" ? "page" : undefined}>Diagram</Link>
-        <Link href="/print">Print</Link>
+        {sections.map((section) => (
+          <Link key={section.slug} href={`/${section.slug}`} aria-current={current === section.slug ? "page" : undefined}>
+            {section.title}
+          </Link>
+        ))}
       </nav>
     </header>
   );
@@ -24,7 +23,6 @@ export function SiteFooter() {
   return (
     <footer className="site-footer">
       <Link href="/">{site.title}</Link>
-      <Link href="/print">Printables</Link>
       <span>{site.term}</span>
     </footer>
   );

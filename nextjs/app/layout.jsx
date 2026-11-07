@@ -1,14 +1,16 @@
 import "@fontsource-variable/inter";
+import "@fontsource-variable/fraunces/opsz.css";
+import "@fontsource-variable/fraunces/opsz-italic.css";
 import "./globals.css";
 
 export const metadata = {
-  title: { default: "The Notebook · TDM 155AI week 5", template: "%s · TDM 155AI week 5" },
-  description: "The Notebook — research, notetaking, writing & creating in the age of AI. TDM 155AI week 5.",
+  title: { default: "Project 2", template: "%s · Project 2" },
+  description: "Project 2 for TDM 155AI: the finished video, with its brainstorming, inspiration, process, and reflection.",
 };
 
 export const viewport = {
-  colorScheme: "dark",
-  themeColor: "#121412",
+  colorScheme: "light",
+  themeColor: "#f7f3ea",
 };
 
 export default function RootLayout({ children }) {

@@ -1,7 +1,7 @@
 ---
 title: Preventing common errors
-description: Tab 2 of the inspiration doc. Segmenting the production so fixes stay small, and keeping characters consistent across generations.
-order: 2
+description: Splitting the production into small, redoable pieces, and keeping characters consistent across generations.
+order: 6
 source: "Tab 2 (“Preventing common errors I see”) of the Google Doc “TDM155AI - Media Inspiration Board”, exported 2026-10-07."
 ---
 
